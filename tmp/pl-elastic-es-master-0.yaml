@@ -1,0 +1,2 @@
+NAME                     READY   STATUS             RESTARTS       AGE
+pl-elastic-es-master-0   0/1     CrashLoopBackOff   18 (51s ago)   87m

@@ -1,0 +1,464 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    co.elastic.logs/module: elasticsearch
+    update.k8s.elastic.co/timestamp: "2022-10-11T18:04:12.154093618Z"
+  creationTimestamp: "2022-10-11T18:04:06Z"
+  generateName: pl-elastic-es-data-
+  labels:
+    common.k8s.elastic.co/type: elasticsearch
+    controller-revision-hash: pl-elastic-es-data-5d4c94774f
+    elasticsearch.k8s.elastic.co/cluster-name: pl-elastic
+    elasticsearch.k8s.elastic.co/config-hash: "4028704847"
+    elasticsearch.k8s.elastic.co/http-scheme: https
+    elasticsearch.k8s.elastic.co/node-data: "true"
+    elasticsearch.k8s.elastic.co/node-ingest: "true"
+    elasticsearch.k8s.elastic.co/node-master: "false"
+    elasticsearch.k8s.elastic.co/node-ml: "true"
+    elasticsearch.k8s.elastic.co/node-voting_only: "false"
+    elasticsearch.k8s.elastic.co/statefulset-name: pl-elastic-es-data
+    elasticsearch.k8s.elastic.co/version: 7.6.0
+    statefulset.kubernetes.io/pod-name: pl-elastic-es-data-0
+  name: pl-elastic-es-data-0
+  namespace: plc
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: StatefulSet
+    name: pl-elastic-es-data
+    uid: 08b00b8a-2e64-486e-8a5d-8184e249fa97
+  resourceVersion: "170180"
+  selfLink: /api/v1/namespaces/plc/pods/pl-elastic-es-data-0
+  uid: c518fdb7-0aff-4fae-934d-be5d9f7ac265
+spec:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              elasticsearch.k8s.elastic.co/cluster-name: pl-elastic
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+  automountServiceAccountToken: false
+  containers:
+  - env:
+    - name: ES_JAVA_OPTS
+      value: -Xms2g -Xmx2g -Dlog4j2.formatMsgNoLookups=True
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+    - name: NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: PROBE_PASSWORD_PATH
+      value: /mnt/elastic-internal/probe-user/elastic-internal-probe
+    - name: PROBE_USERNAME
+      value: elastic-internal-probe
+    - name: READINESS_PROBE_PROTOCOL
+      value: https
+    - name: HEADLESS_SERVICE_NAME
+      value: pl-elastic-es-data
+    - name: NSS_SDB_USE_CACHE
+      value: "no"
+    image: gcr.io/pixie-oss/pixie-dev-public/elasticsearch:7.6.0-patched1
+    imagePullPolicy: IfNotPresent
+    lifecycle:
+      preStop:
+        exec:
+          command:
+          - bash
+          - -c
+          - /mnt/elastic-internal/scripts/pre-stop-hook-script.sh
+    name: elasticsearch
+    ports:
+    - containerPort: 9200
+      name: https
+      protocol: TCP
+    - containerPort: 9300
+      name: transport
+      protocol: TCP
+    readinessProbe:
+      exec:
+        command:
+        - bash
+        - -c
+        - /mnt/elastic-internal/scripts/readiness-probe-script.sh
+      failureThreshold: 3
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 5
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 4Gi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /mnt/elastic-internal/downward-api
+      name: downward-api
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/bin
+      name: elastic-internal-elasticsearch-bin-local
+    - mountPath: /mnt/elastic-internal/elasticsearch-config
+      name: elastic-internal-elasticsearch-config
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/config
+      name: elastic-internal-elasticsearch-config-local
+    - mountPath: /usr/share/elasticsearch/plugins
+      name: elastic-internal-elasticsearch-plugins-local
+    - mountPath: /usr/share/elasticsearch/config/http-certs
+      name: elastic-internal-http-certificates
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/probe-user
+      name: elastic-internal-probe-user
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/config/transport-remote-certs/
+      name: elastic-internal-remote-certificate-authorities
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/scripts
+      name: elastic-internal-scripts
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/config/transport-certs
+      name: elastic-internal-transport-certificates
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/unicast-hosts
+      name: elastic-internal-unicast-hosts
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/xpack-file-realm
+      name: elastic-internal-xpack-file-realm
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/data
+      name: elasticsearch-data
+    - mountPath: /usr/share/elasticsearch/logs
+      name: elasticsearch-logs
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostname: pl-elastic-es-data-0
+  initContainers:
+  - command:
+    - bash
+    - -c
+    - /mnt/elastic-internal/scripts/prepare-fs.sh
+    env:
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+    - name: NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: HEADLESS_SERVICE_NAME
+      value: pl-elastic-es-data
+    image: gcr.io/pixie-oss/pixie-dev-public/elasticsearch:7.6.0-patched1
+    imagePullPolicy: IfNotPresent
+    name: elastic-internal-init-filesystem
+    resources:
+      limits:
+        cpu: 100m
+        memory: 50Mi
+      requests:
+        cpu: 100m
+        memory: 50Mi
+    securityContext:
+      privileged: false
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /mnt/elastic-internal/downward-api
+      name: downward-api
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/elasticsearch-bin-local
+      name: elastic-internal-elasticsearch-bin-local
+    - mountPath: /mnt/elastic-internal/elasticsearch-config
+      name: elastic-internal-elasticsearch-config
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/elasticsearch-config-local
+      name: elastic-internal-elasticsearch-config-local
+    - mountPath: /mnt/elastic-internal/elasticsearch-plugins-local
+      name: elastic-internal-elasticsearch-plugins-local
+    - mountPath: /usr/share/elasticsearch/config/http-certs
+      name: elastic-internal-http-certificates
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/probe-user
+      name: elastic-internal-probe-user
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/config/transport-remote-certs/
+      name: elastic-internal-remote-certificate-authorities
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/scripts
+      name: elastic-internal-scripts
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/transport-certificates
+      name: elastic-internal-transport-certificates
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/unicast-hosts
+      name: elastic-internal-unicast-hosts
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/xpack-file-realm
+      name: elastic-internal-xpack-file-realm
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/data
+      name: elasticsearch-data
+    - mountPath: /usr/share/elasticsearch/logs
+      name: elasticsearch-logs
+  - command:
+    - sh
+    - -c
+    - sysctl -w vm.max_map_count=262144
+    env:
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+    - name: NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: HEADLESS_SERVICE_NAME
+      value: pl-elastic-es-data
+    image: gcr.io/pixie-oss/pixie-dev-public/elasticsearch:7.6.0-patched1
+    imagePullPolicy: IfNotPresent
+    name: sysctl
+    resources: {}
+    securityContext:
+      privileged: true
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /mnt/elastic-internal/downward-api
+      name: downward-api
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/bin
+      name: elastic-internal-elasticsearch-bin-local
+    - mountPath: /mnt/elastic-internal/elasticsearch-config
+      name: elastic-internal-elasticsearch-config
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/config
+      name: elastic-internal-elasticsearch-config-local
+    - mountPath: /usr/share/elasticsearch/plugins
+      name: elastic-internal-elasticsearch-plugins-local
+    - mountPath: /usr/share/elasticsearch/config/http-certs
+      name: elastic-internal-http-certificates
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/probe-user
+      name: elastic-internal-probe-user
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/config/transport-remote-certs/
+      name: elastic-internal-remote-certificate-authorities
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/scripts
+      name: elastic-internal-scripts
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/config/transport-certs
+      name: elastic-internal-transport-certificates
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/unicast-hosts
+      name: elastic-internal-unicast-hosts
+      readOnly: true
+    - mountPath: /mnt/elastic-internal/xpack-file-realm
+      name: elastic-internal-xpack-file-realm
+      readOnly: true
+    - mountPath: /usr/share/elasticsearch/data
+      name: elasticsearch-data
+    - mountPath: /usr/share/elasticsearch/logs
+      name: elasticsearch-logs
+  nodeName: m1
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  subdomain: pl-elastic-es-data
+  terminationGracePeriodSeconds: 180
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: elasticsearch-data
+    persistentVolumeClaim:
+      claimName: elasticsearch-data-pl-elastic-es-data-0
+  - downwardAPI:
+      defaultMode: 420
+      items:
+      - fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.labels
+        path: labels
+    name: downward-api
+  - emptyDir: {}
+    name: elastic-internal-elasticsearch-bin-local
+  - name: elastic-internal-elasticsearch-config
+    secret:
+      defaultMode: 420
+      optional: false
+      secretName: pl-elastic-es-data-es-config
+  - emptyDir: {}
+    name: elastic-internal-elasticsearch-config-local
+  - emptyDir: {}
+    name: elastic-internal-elasticsearch-plugins-local
+  - name: elastic-internal-http-certificates
+    secret:
+      defaultMode: 420
+      optional: false
+      secretName: pl-elastic-es-http-certs-internal
+  - name: elastic-internal-probe-user
+    secret:
+      defaultMode: 420
+      items:
+      - key: elastic-internal-probe
+        path: elastic-internal-probe
+      optional: false
+      secretName: pl-elastic-es-internal-users
+  - name: elastic-internal-remote-certificate-authorities
+    secret:
+      defaultMode: 420
+      optional: false
+      secretName: pl-elastic-es-remote-ca
+  - configMap:
+      defaultMode: 493
+      name: pl-elastic-es-scripts
+      optional: false
+    name: elastic-internal-scripts
+  - name: elastic-internal-transport-certificates
+    secret:
+      defaultMode: 420
+      optional: false
+      secretName: pl-elastic-es-data-es-transport-certs
+  - configMap:
+      defaultMode: 420
+      name: pl-elastic-es-unicast-hosts
+      optional: false
+    name: elastic-internal-unicast-hosts
+  - name: elastic-internal-xpack-file-realm
+    secret:
+      defaultMode: 420
+      optional: false
+      secretName: pl-elastic-es-xpack-file-realm
+  - emptyDir: {}
+    name: elasticsearch-logs
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-11T18:04:12Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-11T19:30:54Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-11T19:30:54Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2022-10-11T18:04:08Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://68432b51798ce9d977042c703010beefcfa8f62eee52f00054b20c0a5b37736d
+    image: gcr.io/pixie-oss/pixie-dev-public/elasticsearch:7.6.0-patched1
+    imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/elasticsearch@sha256:f734909115be9dba66736c4b7356fd52da58b1ffdb895ba74cb5c2fca2b133dd
+    lastState:
+      terminated:
+        containerID: docker://11f0607ef03d0b9381fd903ff6d3f7a65a256b4cb046853c7841803b4250da3c
+        exitCode: 1
+        finishedAt: "2022-10-11T19:24:58Z"
+        reason: Error
+        startedAt: "2022-10-11T19:23:56Z"
+    name: elasticsearch
+    ready: true
+    restartCount: 18
+    started: true
+    state:
+      running:
+        startedAt: "2022-10-11T19:30:11Z"
+  hostIP: 192.168.1.10
+  initContainerStatuses:
+  - containerID: docker://d90522ea3154c702f58c840dd4b79d515d27a2c3174ca3ebafeac49c39926371
+    image: gcr.io/pixie-oss/pixie-dev-public/elasticsearch:7.6.0-patched1
+    imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/elasticsearch@sha256:f734909115be9dba66736c4b7356fd52da58b1ffdb895ba74cb5c2fca2b133dd
+    lastState: {}
+    name: elastic-internal-init-filesystem
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://d90522ea3154c702f58c840dd4b79d515d27a2c3174ca3ebafeac49c39926371
+        exitCode: 0
+        finishedAt: "2022-10-11T18:04:11Z"
+        reason: Completed
+        startedAt: "2022-10-11T18:04:09Z"
+  - containerID: docker://a1acf0d4daa6034f0cdfcb96d7cecad521d424bb201076f7faa79f5ad39c856c
+    image: gcr.io/pixie-oss/pixie-dev-public/elasticsearch:7.6.0-patched1
+    imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/elasticsearch@sha256:f734909115be9dba66736c4b7356fd52da58b1ffdb895ba74cb5c2fca2b133dd
+    lastState: {}
+    name: sysctl
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://a1acf0d4daa6034f0cdfcb96d7cecad521d424bb201076f7faa79f5ad39c856c
+        exitCode: 0
+        finishedAt: "2022-10-11T18:04:11Z"
+        reason: Completed
+        startedAt: "2022-10-11T18:04:11Z"
+  phase: Running
+  podIP: 172.16.202.13
+  podIPs:
+  - ip: 172.16.202.13
+  qosClass: Burstable
+  startTime: "2022-10-11T18:04:08Z"
