@@ -410,37 +410,10 @@ spec:
   image: gcr.io/pixie-oss/pixie-dev-public/elasticsearch:7.6.0-patched1
   nodeSets:
   - config:
-      node.data: true
-      node.ingest: true
-      node.master: true
-      node.store.allow_mmap: true
-    count: 2
-    name: master
-    podTemplate:
-      spec:
-        initContainers:
-        - command:
-          - sh
-          - -c
-          - sysctl -w vm.max_map_count=262144
-          name: sysctl
-          securityContext:
-            privileged: true
-    volumeClaimTemplates:
-    - metadata:
-        name: elasticsearch-data
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 5Gi
-        storageClassName: pixie-nfs
-  - config:
       node.attr.data: hot
       node.data: true
       node.ingest: true
-      node.master: false
+      node.master: true
       node.store.allow_mmap: true
     count: 1
     name: data
@@ -449,15 +422,15 @@ spec:
         containers:
         - env:
           - name: ES_JAVA_OPTS
-            value: -Xms2g -Xmx2g -Dlog4j2.formatMsgNoLookups=True
+            value: -Xms1536m -Xmx1536m -Dlog4j2.formatMsgNoLookups=True
           name: elasticsearch
           resources:
             limits:
               cpu: 2
-              memory: 4Gi
+              memory: 3Gi
             requests:
               cpu: 0.5
-              memory: 4Gi
+              memory: 3Gi
         initContainers:
         - command:
           - sh
