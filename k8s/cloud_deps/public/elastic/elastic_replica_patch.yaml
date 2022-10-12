@@ -17,5 +17,5 @@
   path: /spec/nodeSets/1/count
   value: 1
 - op: replace
-  path: /spec/nodeSets/0/config/node.master
+  path: /spec/nodeSets/1/config/node.master
   value: true
