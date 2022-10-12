@@ -10,7 +10,7 @@ spec:
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClassName: pixie-nfs-storage
+      storageClassName: pixie-nfs
       resources:
         requests:
           storage: 1Gi

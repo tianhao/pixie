@@ -6,7 +6,7 @@
 
 - op: add
   path: /spec/nodeSets/0/volumeClaimTemplates/0/spec/storageClassName
-  value: pixie-nfs-storage
+  value: pixie-nfs
 
 # Data node.
 - op: replace
@@ -15,5 +15,5 @@
 
 - op: add
   path: /spec/nodeSets/1/volumeClaimTemplates/0/spec/storageClassName
-  value: pixie-nfs-storage
+  value: pixie-nfs
 

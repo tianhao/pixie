@@ -239,7 +239,7 @@ spec:
   resources:
     requests:
       storage: 100M
-  storageClassName: pixie-nfs-storage
+  storageClassName: pixie-nfs
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -397,7 +397,7 @@ spec:
       resources:
         requests:
           storage: 1Gi
-      storageClassName: pixie-nfs-storage
+      storageClassName: pixie-nfs
 ---
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
@@ -435,7 +435,7 @@ spec:
         resources:
           requests:
             storage: 5Gi
-        storageClassName: pixie-nfs-storage
+        storageClassName: pixie-nfs
   - config:
       node.attr.data: hot
       node.data: true
@@ -475,5 +475,5 @@ spec:
         resources:
           requests:
             storage: 5Gi
-        storageClassName: pixie-nfs-storage
+        storageClassName: pixie-nfs
   version: 7.6.0
