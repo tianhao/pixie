@@ -7,12 +7,11 @@ metadata:
     cloud.google.com/load-balancer-type: internal
     cloud.google.com/app-protocols: '{"tcp-http2":"HTTP2"}'
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 51600
     protocol: TCP
     targetPort: 51600
     name: tcp-http2
-    nodePort: 51600
   selector:
     name: vzconn-server

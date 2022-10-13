@@ -6,24 +6,19 @@ metadata:
   annotations:
     cloud.google.com/load-balancer-type: internal
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 443
     protocol: TCP
     targetPort: 56000
     name: tcp-https
-    nodePort: 443
   - port: 4444
     protocol: TCP
     targetPort: 56004
     name: tcp-grcp-web
-    nodePort: 4444
   - port: 5555
     protocol: TCP
     targetPort: 56000
     name: tcp-http2
-    nodePort: 5555
   selector:
     name: cloud-proxy-server
-
-# https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/
