@@ -43,7 +43,9 @@ kubectl create secret generic -n "${namespace}" \
   cloud-session-secrets \
   --from-literal=session-key="$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 24 | head -n 1)"
 
-SERVICE_TLS_CERTS="$(mktemp -d)"
+#SERVICE_TLS_CERTS="$(mktemp -d)"
+mkdir -p $(dirname $0)/../certs
+SERVICE_TLS_CERTS="$(dirname $0)/../certs"
 pushd "${SERVICE_TLS_CERTS}" || exit 1
 
 cat << EOS >> ssl.conf
@@ -90,8 +92,9 @@ kubectl create secret generic -n "${namespace}" \
   --from-file=server.key=./server.key
 
 popd || exit 1
-
-PROXY_TLS_CERTS="$(mktemp -d)"
+#PROXY_TLS_CERTS="$(mktemp -d)"
+mkdir -p $(dirname $0)/../certs
+PROXY_TLS_CERTS="$(dirname $0)/../certs"
 PROXY_CERT_FILE="${PROXY_TLS_CERTS}/server.crt"
 PROXY_KEY_FILE="${PROXY_TLS_CERTS}/server.key"
 
@@ -104,3 +107,4 @@ kubectl create secret tls -n "${namespace}" \
   cloud-proxy-tls-certs \
   --cert="${PROXY_CERT_FILE}" \
   --key="${PROXY_KEY_FILE}"
+
