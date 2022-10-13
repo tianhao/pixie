@@ -60,6 +60,7 @@ metadata:
     app: pl-cloud
   name: cloud-ingress
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
