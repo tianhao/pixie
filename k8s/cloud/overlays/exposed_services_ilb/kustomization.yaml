@@ -4,5 +4,5 @@ kind: Kustomization
 commonLabels:
   app: pl-cloud
 resources:
-- proxy_service.yaml
-- vzconn_service.yaml
+- nodeport/proxy_service.yaml
+- nodeport/vzconn_service.yaml
