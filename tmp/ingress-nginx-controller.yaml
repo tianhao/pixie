@@ -336,6 +336,7 @@ subjects:
 apiVersion: v1
 data:
   allow-snippet-annotations: "true"
+  hsts: "false"
 kind: ConfigMap
 metadata:
   labels:
@@ -429,7 +430,7 @@ spec:
         app.kubernetes.io/instance: ingress-nginx
         app.kubernetes.io/name: ingress-nginx
     spec:
-      hostNetwork: true
+#      hostNetwork: true
       containers:
       - args:
         - /nginx-ingress-controller

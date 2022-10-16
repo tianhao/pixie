@@ -16,7 +16,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-set -e
+set -xe
 
 namespace="plc"
 
@@ -44,8 +44,8 @@ kubectl create secret generic -n "${namespace}" \
   --from-literal=session-key="$(< /dev/urandom tr -dc 'a-zA-Z0-9' | fold -w 24 | head -n 1)"
 
 #SERVICE_TLS_CERTS="$(mktemp -d)"
-mkdir -p $(dirname $0)/../certs
-SERVICE_TLS_CERTS="$(dirname $0)/../certs"
+SERVICE_TLS_CERTS="$(dirname $0)/../certs/server-certs"
+mkdir -p $SERVICE_TLS_CERTS
 pushd "${SERVICE_TLS_CERTS}" || exit 1
 
 cat << EOS >> ssl.conf
@@ -93,15 +93,15 @@ kubectl create secret generic -n "${namespace}" \
 
 popd || exit 1
 #PROXY_TLS_CERTS="$(mktemp -d)"
-mkdir -p $(dirname $0)/../certs
-PROXY_TLS_CERTS="$(dirname $0)/../certs"
+PROXY_TLS_CERTS="$(dirname $0)/../certs/client-certs"
+mkdir -p $PROXY_TLS_CERTS
 PROXY_CERT_FILE="${PROXY_TLS_CERTS}/server.crt"
 PROXY_KEY_FILE="${PROXY_TLS_CERTS}/server.key"
 
 mkcert \
   -cert-file "${PROXY_CERT_FILE}" \
   -key-file "${PROXY_KEY_FILE}" \
-  dev.withpixie.dev "*.dev.withpixie.dev" localhost 127.0.0.1 ::1
+  dev.withpixie.dev "*.dev.withpixie.dev" localhost 127.0.0.1 ::1 192.168.1.10 192.168.1.11 192.168.1.12
 
 kubectl create secret tls -n "${namespace}" \
   cloud-proxy-tls-certs \

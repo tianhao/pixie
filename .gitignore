@@ -24,6 +24,8 @@ bazel-*
 **/.idea/sqlDataSources.xml
 **/.idea/dynamic.xml
 **/.idea/uiDesigner.xml
+**/.idea/kubernetes-settings.xml
+
 
 # CLion Bazel files.
 .clwb
