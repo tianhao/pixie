@@ -8,6 +8,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
+  storageClassName: pixie-nfs
   resources:
     requests:
       storage: 100M
