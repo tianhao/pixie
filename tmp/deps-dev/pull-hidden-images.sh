@@ -1,0 +1,1 @@
+docker pull docker.elastic.co/kibana/kibana:7.6.0
