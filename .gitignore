@@ -84,3 +84,4 @@ external
 !bazel/external
 /dev_dns_updater
 /certs/
+/.idea/pixie.iml

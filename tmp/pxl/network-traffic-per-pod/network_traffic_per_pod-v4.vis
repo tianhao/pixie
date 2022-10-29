@@ -1,0 +1,142 @@
+{
+  "variables": [
+    {
+      "name": "start_time",
+      "type": "PX_STRING",
+      "description": "The relative start time of the window. Current time is assumed to be now",
+      "defaultValue": "-5m"
+    },
+    {
+      "name": "namespace",
+      "type": "PX_NAMESPACE",
+      "description": "The name of the namespace"
+    }
+  ],
+  "widgets": [
+    {
+      "name": "Network Traffic per Pod",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 3
+      },
+      "func": {
+        "name": "network_traffic_per_pod",
+        "args": [
+          {
+            "name": "start_time",
+            "variable": "start_time"
+          },
+          {
+            "name": "ns",
+            "variable": "namespace"
+          }
+        ]
+      },
+      "displaySpec": {
+        "@type": "types.px.dev/px.vispb.Table",
+        "gutterColumn": "status"
+      }
+    },
+    {
+      "name": "Byte Sent",
+      "position": {
+        "x": 0,
+        "y": 3,
+        "w": 6,
+        "h": 3
+      },
+      "globalFuncOutputName": "resource_timeseries",
+      "displaySpec": {
+        "@type": "types.px.dev/px.vispb.TimeseriesChart",
+        "timeseries": [
+          {
+            "value": "bytes_sent",
+            "mode": "MODE_LINE",
+            "series": "pod"
+          }
+        ],
+        "title": "",
+        "yAxis": {
+          "label": "Bytes sent"
+        },
+        "xAxis": null
+      }
+    },
+    {
+      "name": "Byte Recv",
+      "position": {
+        "x": 6,
+        "y": 3,
+        "w": 6,
+        "h": 3
+      },
+      "globalFuncOutputName": "resource_timeseries",
+      "displaySpec": {
+        "@type": "types.px.dev/px.vispb.TimeseriesChart",
+        "timeseries": [
+          {
+            "value": "bytes_recv",
+            "mode": "MODE_LINE",
+            "series": "pod"
+          }
+        ],
+        "title": "",
+        "yAxis": {
+          "label": "Bytes received"
+        },
+        "xAxis": null
+      }
+    },
+    {
+      "name": "Pod Connections",
+      "position": {
+        "x": 0,
+        "y": 6,
+        "w": 12,
+        "h": 5
+      },
+      "func": {
+        "name": "pod_connections",
+        "args": [
+          {
+            "name": "start_time",
+            "variable": "start_time"
+          }
+        ]
+      },
+      "displaySpec": {
+        "@type": "types.px.dev/px.vispb.Graph",
+        "adjacencyList": {
+          "fromColumn": "requester_pod",
+          "toColumn": "responder_pod"
+        },
+        "edgeWeightColumn": "bytes_recv",
+        "edgeLength": 300,
+        "edgeThresholds": {
+          "mediumThreshold": 5,
+          "highThreshold": 50
+        },
+        "edgeHoverInfo": [
+          "bytes_recv",
+          "bytes_sent"
+        ]
+      }
+    }
+  ],
+  "globalFuncs": [
+    {
+      "outputName": "resource_timeseries",
+      "func": {
+        "name": "network_traffic_timeseries",
+        "args": [
+          {
+            "name": "start_time",
+            "variable": "start_time"
+          }
+        ]
+      }
+    }
+  ]
+}

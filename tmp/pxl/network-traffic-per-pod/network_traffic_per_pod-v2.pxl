@@ -1,0 +1,29 @@
+import px
+
+def network_traffic_per_pod(start_time: str, ns: px.Namespace):
+    df = px.DataFrame(table='conn_stats', start_time=start_time)
+    df.pod = df.ctx['pod']
+    df.service = df.ctx['service']
+    df.namespace = df.ctx['namespace']
+
+    # 过滤 ns
+    df = df[df.namespace == ns]
+
+    df = df.groupby(['service', 'pod', 'upid']).agg(
+        bytes_sent_min=('bytes_sent', px.min),
+        bytes_sent_max=('bytes_sent', px.max),
+        bytes_recv_min=('bytes_recv', px.min),
+        bytes_recv_max=('bytes_recv', px.max),
+    )
+
+    df.bytes_sent = df.bytes_sent_max - df.bytes_sent_min
+    df.bytes_recv = df.bytes_recv_max - df.bytes_recv_min
+
+    df = df.groupby(['service', 'pod']).agg(
+        bytes_sent = ('bytes_sent', px.sum),
+        bytes_recv = ('bytes_recv', px.sum),
+    )
+
+    df = df[df.service != '']
+
+    return df

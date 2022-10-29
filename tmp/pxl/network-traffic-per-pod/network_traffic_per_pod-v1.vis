@@ -1,0 +1,34 @@
+{
+    "variables": [
+        {
+            "name": "start_time",
+            "type": "PX_STRING",
+            "description": "The relative start time of the window. Current time is assumed to be now",
+            "defaultValue": "-5m"
+        }
+    ],
+    "widgets": [
+        {
+            "name": "Network Traffic per Pod",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "w": 12,
+                "h": 3
+            },
+            "func": {
+                "name": "network_traffic_per_pod",
+                "args": [
+                    {
+                        "name": "start_time",
+                        "variable": "start_time"
+                    }
+                ]
+            },
+            "displaySpec": {
+                "@type": "types.px.dev/px.vispb.Table"
+            }
+        }
+    ],
+    "globalFuncs": []
+}

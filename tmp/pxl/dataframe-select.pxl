@@ -1,0 +1,5 @@
+import px
+
+df = px.DataFrame(table='conn_stats', start_time='-30s', select=['conn_open', 'conn_close', 'bytes_sent', 'bytes_recv'])
+
+px.display(df)

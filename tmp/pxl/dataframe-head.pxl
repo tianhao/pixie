@@ -1,0 +1,6 @@
+import px
+
+df = px.DataFrame(table='conn_stats', start_time='-30s')
+df = df.head(100)
+
+px.display(df)
