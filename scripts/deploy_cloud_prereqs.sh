@@ -16,7 +16,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-set -e
+set -xe
 
 if [ "$#" -ne 2 ]; then
   echo "This script requires exactly two arguments: <namespace> <secret type : dev, prod, etc.>"

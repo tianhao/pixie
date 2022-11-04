@@ -16,12 +16,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-set -e
-
 namespace="plc-dev"
 
 export LANG=C
 export LC_ALL=C
+
+kubectl create ns ${namespace}
+kubectl create ns ${namespace}-monitoring
+
+set -e
 
 kubectl create secret generic -n "${namespace}" \
   cloud-auth-secrets \

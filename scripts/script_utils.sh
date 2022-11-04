@@ -15,6 +15,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+set -x
 retry() {
   cmd=$1
   try=${2:-15}       # 15 by default

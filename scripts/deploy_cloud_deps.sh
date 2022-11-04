@@ -16,6 +16,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+set -x
 if [ "$#" -ne 1 ]; then
   echo "This script requires exactly one argument: <deploy_env : dev, prod, etc.>"
   exit 1
