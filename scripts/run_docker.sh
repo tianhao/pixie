@@ -115,10 +115,22 @@ else
     echo -e "\t${bold}Not in a terminal session.${resetcolor}"
 fi
 
+proxy_config=""
+if [ "${HTTP_PROXY}" != "" ];then
+  proxy_config+=" -e HTTP_PROXY=${HTTP_PROXY}"
+fi
+if [ "${HTTPS_PROXY}" != "" ];then
+  proxy_config+=" -e HTTPS_PROXY=${HTTPS_PROXY}"
+fi
+if [ "${NO_PROXY}" != "" ];then
+  proxy_config+=" -e NO_PROXY=${NO_PROXY}"
+fi
+
 # Echo the final docker run command before executing.
 set -x
 
 docker run \
+  ${proxy_config} \
   "${container_args[@]}" \
   "${configs[@]}" \
   "${build_buddy_args[@]}" \
