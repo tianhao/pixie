@@ -1,0 +1,839 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2022-11-06T01:39:17Z"
+    generateName: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e-
+    labels:
+      controller-uid: b196515a-e96c-406d-8a0d-bbeca7858baa
+      job-name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+    name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1p767p
+    namespace: px-operator
+    ownerReferences:
+    - apiVersion: batch/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Job
+      name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+      uid: b196515a-e96c-406d-8a0d-bbeca7858baa
+    resourceVersion: "235026"
+    selfLink: /api/v1/namespaces/px-operator/pods/1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1p767p
+    uid: f70649c6-46b1-4f27-8095-c98f3469760d
+  spec:
+    containers:
+    - command:
+      - opm
+      - alpha
+      - bundle
+      - extract
+      - -m
+      - /bundle/
+      - -n
+      - px-operator
+      - -c
+      - 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+      env:
+      - name: CONTAINER_IMAGE
+        value: gcr.io/pixie-oss/pixie-prod/operator/bundle:0.0.32
+      image: quay.io/operator-framework/configmap-operator-registry:latest
+      imagePullPolicy: Always
+      name: extract
+      resources:
+        requests:
+          cpu: 10m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /bundle
+        name: bundle
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-84qgh
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - /bin/cp
+      - -Rv
+      - /bin/cpb
+      - /util/cpb
+      image: quay.io/operator-framework/olm@sha256:b706ee6583c4c3cf8059d44234c8a4505804adcc742bcddb3d1e2f6eff3d6519
+      imagePullPolicy: IfNotPresent
+      name: util
+      resources:
+        requests:
+          cpu: 10m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /util
+        name: util
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-84qgh
+        readOnly: true
+    - command:
+      - /util/cpb
+      - /bundle
+      image: gcr.io/pixie-oss/pixie-prod/operator/bundle:0.0.32
+      imagePullPolicy: Always
+      name: pull
+      resources:
+        requests:
+          cpu: 10m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /bundle
+        name: bundle
+      - mountPath: /util
+        name: util
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-84qgh
+        readOnly: true
+    nodeName: ss1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: OnFailure
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir: {}
+      name: bundle
+    - emptyDir: {}
+      name: util
+    - name: kube-api-access-84qgh
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:43:53Z"
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:39:17Z"
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:39:17Z"
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:39:17Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://e53203198043ad13e4cf8e58227ef89f738208fb29fe2a70c2d0d8902dcc1394
+      image: quay.io/operator-framework/configmap-operator-registry:latest
+      imageID: docker-pullable://quay.io/operator-framework/configmap-operator-registry@sha256:c3f27cd0160d03f5b62582b6564568eb25bf08d7e35d07a0b2584fc0b44427a0
+      lastState: {}
+      name: extract
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: docker://e53203198043ad13e4cf8e58227ef89f738208fb29fe2a70c2d0d8902dcc1394
+          exitCode: 0
+          finishedAt: "2022-11-06T01:45:12Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:12Z"
+    hostIP: 192.168.1.11
+    initContainerStatuses:
+    - containerID: docker://ce433c46d53b079dc8b042abc7fbbf9bf5ae31c5f5ffc8cffdebc9050baf2a4b
+      image: quay.io/operator-framework/olm@sha256:b706ee6583c4c3cf8059d44234c8a4505804adcc742bcddb3d1e2f6eff3d6519
+      imageID: docker-pullable://quay.io/operator-framework/olm@sha256:b706ee6583c4c3cf8059d44234c8a4505804adcc742bcddb3d1e2f6eff3d6519
+      lastState: {}
+      name: util
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://ce433c46d53b079dc8b042abc7fbbf9bf5ae31c5f5ffc8cffdebc9050baf2a4b
+          exitCode: 0
+          finishedAt: "2022-11-06T01:43:32Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:43:32Z"
+    - containerID: docker://9583e89ff719b31f069c4d5d9dac69e91985e0ab09d57c26e56c62a4c907a80e
+      image: gcr.io/pixie-oss/pixie-prod/operator/bundle:0.0.32
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/operator/bundle@sha256:29247957423e789fab36f1f4a413afbbe45b7c28decc5df1cd7bb8579639ed7b
+      lastState: {}
+      name: pull
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://9583e89ff719b31f069c4d5d9dac69e91985e0ab09d57c26e56c62a4c907a80e
+          exitCode: 0
+          finishedAt: "2022-11-06T01:43:53Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:43:52Z"
+    phase: Succeeded
+    podIP: 172.16.189.80
+    podIPs:
+    - ip: 172.16.189.80
+    qosClass: Burstable
+    startTime: "2022-11-06T01:39:17Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2022-11-06T01:38:26Z"
+    generateName: pixie-operator-index-
+    labels:
+      olm.catalogSource: pixie-operator-index
+    name: pixie-operator-index-twvxb
+    namespace: px-operator
+    ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      blockOwnerDeletion: false
+      controller: false
+      kind: CatalogSource
+      name: pixie-operator-index
+      uid: 917c3b3b-aed9-4808-aa81-c19201a7803b
+    resourceVersion: "233895"
+    selfLink: /api/v1/namespaces/px-operator/pods/pixie-operator-index-twvxb
+    uid: 908f71d2-f879-422d-8918-24f269ce73b3
+  spec:
+    containers:
+    - image: gcr.io/pixie-oss/pixie-prod/operator/bundle_index:0.0.1
+      imagePullPolicy: Always
+      livenessProbe:
+        exec:
+          command:
+          - grpc_health_probe
+          - -addr=:50051
+        failureThreshold: 3
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: registry-server
+      ports:
+      - containerPort: 50051
+        name: grpc
+        protocol: TCP
+      readinessProbe:
+        exec:
+          command:
+          - grpc_health_probe
+          - -addr=:50051
+        failureThreshold: 3
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources:
+        requests:
+          cpu: 10m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dg4pd
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ss1
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: pixie-operator-index
+    serviceAccountName: pixie-operator-index
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-dg4pd
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:38:26Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:39:16Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:39:16Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:38:26Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://5a71d4341b0317be6368f3981f1ce1b7273cec6795a0f0d7780f09a079e8e03a
+      image: gcr.io/pixie-oss/pixie-prod/operator/bundle_index:0.0.1
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/operator/bundle_index@sha256:241aaed8851cd20f1d024d83dcc3df8599fd748e2943e8c6a98700b85ec5e135
+      lastState: {}
+      name: registry-server
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:39:09Z"
+    hostIP: 192.168.1.11
+    phase: Running
+    podIP: 172.16.189.81
+    podIPs:
+    - ip: 172.16.189.81
+    qosClass: Burstable
+    startTime: "2022-11-06T01:38:26Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      olm.operatorGroup: global-operators
+      olm.operatorNamespace: px-operator
+      olm.targetNamespaces: ""
+      operatorframework.io/properties: '{"properties":[{"type":"olm.gvk","value":{"group":"px.dev","kind":"Vizier","version":"v1alpha1"}},{"type":"olm.package","value":{"packageName":"pixie-operator","version":"0.0.32"}}]}'
+    creationTimestamp: "2022-11-06T01:45:14Z"
+    generateName: vizier-operator-5b4bf95b85-
+    labels:
+      app: pixie-operator
+      component: pixie-operator
+      name: vizier-operator
+      plane: control
+      pod-template-hash: 5b4bf95b85
+    name: vizier-operator-5b4bf95b85-7cx9b
+    namespace: px-operator
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: vizier-operator-5b4bf95b85
+      uid: 4e2eca1a-8682-4388-a15f-ba3d4f90e7f0
+    resourceVersion: "235021"
+    selfLink: /api/v1/namespaces/px-operator/pods/vizier-operator-5b4bf95b85-7cx9b
+    uid: fb6fcde2-ba05-4383-b80e-4e58f12cb5cd
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/os
+              operator: Exists
+            - key: kubernetes.io/os
+              operator: In
+              values:
+              - linux
+          - matchExpressions:
+            - key: beta.kubernetes.io/os
+              operator: Exists
+            - key: beta.kubernetes.io/os
+              operator: In
+              values:
+              - linux
+    containers:
+    - env:
+      - name: OPERATOR_CONDITION_NAME
+        value: pixie-operator.v0.0.32
+      image: gcr.io/pixie-oss/pixie-prod/operator/operator_image:0.0.32
+      imagePullPolicy: IfNotPresent
+      name: app
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-b444j
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: mm1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: pixie-operator-service-account
+    serviceAccountName: pixie-operator-service-account
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-b444j
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:14Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:15Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:15Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:14Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://9f292fd235e07808fa81a144339aa2d7a4f9f1991606da17d84ca6b62feee006
+      image: gcr.io/pixie-oss/pixie-prod/operator/operator_image:0.0.32
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/operator/operator_image@sha256:09afa3e4c067bfbce1dfeb95ce86011626b847b71e0f698d82f0eba973fad359
+      lastState: {}
+      name: app
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:45:15Z"
+    hostIP: 192.168.1.10
+    phase: Running
+    podIP: 172.19.120.109
+    podIPs:
+    - ip: 172.19.120.109
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:14Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2022-11-06T01:38:26Z"
+    labels:
+      olm.service-spec-hash: 86f57dbb8
+    name: pixie-operator-index
+    namespace: px-operator
+    ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      blockOwnerDeletion: false
+      controller: false
+      kind: CatalogSource
+      name: pixie-operator-index
+      uid: 917c3b3b-aed9-4808-aa81-c19201a7803b
+    resourceVersion: "233704"
+    selfLink: /api/v1/namespaces/px-operator/services/pixie-operator-index
+    uid: 3bddf1be-24dc-44a3-9d5f-fc3fd2d95eed
+  spec:
+    clusterIP: 10.99.117.123
+    clusterIPs:
+    - 10.99.117.123
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: grpc
+      port: 50051
+      protocol: TCP
+      targetPort: 50051
+    selector:
+      olm.catalogSource: pixie-operator-index
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2022-11-06T01:45:14Z"
+    generation: 1
+    labels:
+      olm.deployment-spec-hash: 6bc949c855
+      olm.owner: pixie-operator.v0.0.32
+      olm.owner.kind: ClusterServiceVersion
+      olm.owner.namespace: px-operator
+      operators.coreos.com/pixie-operator.px-operator: ""
+    name: vizier-operator
+    namespace: px-operator
+    ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      blockOwnerDeletion: false
+      controller: false
+      kind: ClusterServiceVersion
+      name: pixie-operator.v0.0.32
+      uid: c37b9a58-4e3b-439c-9e40-e43c264bbaee
+    resourceVersion: "235023"
+    selfLink: /apis/apps/v1/namespaces/px-operator/deployments/vizier-operator
+    uid: 3dc9774f-8cc6-4eab-8a08-a62af415de7e
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 1
+    selector:
+      matchLabels:
+        app: pixie-operator
+        component: pixie-operator
+        name: vizier-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          olm.operatorGroup: global-operators
+          olm.operatorNamespace: px-operator
+          olm.targetNamespaces: ""
+          operatorframework.io/properties: '{"properties":[{"type":"olm.gvk","value":{"group":"px.dev","kind":"Vizier","version":"v1alpha1"}},{"type":"olm.package","value":{"packageName":"pixie-operator","version":"0.0.32"}}]}'
+        creationTimestamp: null
+        labels:
+          app: pixie-operator
+          component: pixie-operator
+          name: vizier-operator
+          plane: control
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: OPERATOR_CONDITION_NAME
+            value: pixie-operator.v0.0.32
+          image: gcr.io/pixie-oss/pixie-prod/operator/operator_image:0.0.32
+          imagePullPolicy: IfNotPresent
+          name: app
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: pixie-operator-service-account
+        serviceAccountName: pixie-operator-service-account
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-11-06T01:45:15Z"
+      lastUpdateTime: "2022-11-06T01:45:15Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-11-06T01:45:14Z"
+      lastUpdateTime: "2022-11-06T01:45:15Z"
+      message: ReplicaSet "vizier-operator-5b4bf95b85" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2022-11-06T01:45:14Z"
+    generation: 1
+    labels:
+      app: pixie-operator
+      component: pixie-operator
+      name: vizier-operator
+      plane: control
+      pod-template-hash: 5b4bf95b85
+    name: vizier-operator-5b4bf95b85
+    namespace: px-operator
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: vizier-operator
+      uid: 3dc9774f-8cc6-4eab-8a08-a62af415de7e
+    resourceVersion: "235022"
+    selfLink: /apis/apps/v1/namespaces/px-operator/replicasets/vizier-operator-5b4bf95b85
+    uid: 4e2eca1a-8682-4388-a15f-ba3d4f90e7f0
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pixie-operator
+        component: pixie-operator
+        name: vizier-operator
+        pod-template-hash: 5b4bf95b85
+    template:
+      metadata:
+        annotations:
+          olm.operatorGroup: global-operators
+          olm.operatorNamespace: px-operator
+          olm.targetNamespaces: ""
+          operatorframework.io/properties: '{"properties":[{"type":"olm.gvk","value":{"group":"px.dev","kind":"Vizier","version":"v1alpha1"}},{"type":"olm.package","value":{"packageName":"pixie-operator","version":"0.0.32"}}]}'
+        creationTimestamp: null
+        labels:
+          app: pixie-operator
+          component: pixie-operator
+          name: vizier-operator
+          plane: control
+          pod-template-hash: 5b4bf95b85
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: OPERATOR_CONDITION_NAME
+            value: pixie-operator.v0.0.32
+          image: gcr.io/pixie-oss/pixie-prod/operator/operator_image:0.0.32
+          imagePullPolicy: IfNotPresent
+          name: app
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: pixie-operator-service-account
+        serviceAccountName: pixie-operator-service-account
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: batch/v1
+  kind: Job
+  metadata:
+    creationTimestamp: "2022-11-06T01:39:17Z"
+    generation: 1
+    labels:
+      controller-uid: b196515a-e96c-406d-8a0d-bbeca7858baa
+      job-name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+    name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+    namespace: px-operator
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: false
+      controller: false
+      kind: ConfigMap
+      name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+      uid: 1509840f-50e8-4630-a95d-79adf7ae0a50
+    resourceVersion: "235028"
+    selfLink: /apis/batch/v1/namespaces/px-operator/jobs/1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+    uid: b196515a-e96c-406d-8a0d-bbeca7858baa
+  spec:
+    backoffLimit: 6
+    completionMode: NonIndexed
+    completions: 1
+    parallelism: 1
+    selector:
+      matchLabels:
+        controller-uid: b196515a-e96c-406d-8a0d-bbeca7858baa
+    suspend: false
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          controller-uid: b196515a-e96c-406d-8a0d-bbeca7858baa
+          job-name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+        name: 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+      spec:
+        containers:
+        - command:
+          - opm
+          - alpha
+          - bundle
+          - extract
+          - -m
+          - /bundle/
+          - -n
+          - px-operator
+          - -c
+          - 1fe1a829d21378dc27be41f2ddc4878330c8d7e48684207fda0ece47f1d703e
+          env:
+          - name: CONTAINER_IMAGE
+            value: gcr.io/pixie-oss/pixie-prod/operator/bundle:0.0.32
+          image: quay.io/operator-framework/configmap-operator-registry:latest
+          imagePullPolicy: Always
+          name: extract
+          resources:
+            requests:
+              cpu: 10m
+              memory: 50Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /bundle
+            name: bundle
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - /bin/cp
+          - -Rv
+          - /bin/cpb
+          - /util/cpb
+          image: quay.io/operator-framework/olm@sha256:b706ee6583c4c3cf8059d44234c8a4505804adcc742bcddb3d1e2f6eff3d6519
+          imagePullPolicy: IfNotPresent
+          name: util
+          resources:
+            requests:
+              cpu: 10m
+              memory: 50Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /util
+            name: util
+        - command:
+          - /util/cpb
+          - /bundle
+          image: gcr.io/pixie-oss/pixie-prod/operator/bundle:0.0.32
+          imagePullPolicy: Always
+          name: pull
+          resources:
+            requests:
+              cpu: 10m
+              memory: 50Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /bundle
+            name: bundle
+          - mountPath: /util
+            name: util
+        restartPolicy: OnFailure
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: bundle
+        - emptyDir: {}
+          name: util
+  status:
+    completionTime: "2022-11-06T01:45:15Z"
+    conditions:
+    - lastProbeTime: "2022-11-06T01:45:15Z"
+      lastTransitionTime: "2022-11-06T01:45:15Z"
+      status: "True"
+      type: Complete
+    startTime: "2022-11-06T01:39:17Z"
+    succeeded: 1
+kind: List
+metadata:
+  resourceVersion: ""

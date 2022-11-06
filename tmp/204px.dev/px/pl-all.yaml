@@ -1,0 +1,5737 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:48:24Z"
+    generateName: cert-provisioner-job-
+    labels:
+      app: pl-monitoring
+      component: vizier
+      controller-uid: 08599a46-e948-4079-8984-a674ede35b3a
+      job-name: cert-provisioner-job
+      vizier-bootstrap: "true"
+      vizier-name: pixie
+    name: cert-provisioner-job-nvr9g
+    namespace: pl
+    ownerReferences:
+    - apiVersion: batch/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Job
+      name: cert-provisioner-job
+      uid: 08599a46-e948-4079-8984-a674ede35b3a
+    resourceVersion: "236040"
+    selfLink: /api/v1/namespaces/pl/pods/cert-provisioner-job-nvr9g
+    uid: 697045e8-6960-49f8-9632-b4072b5486f1
+  spec:
+    containers:
+    - env:
+      - name: PL_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      envFrom:
+      - configMapRef:
+          name: pl-cloud-config
+      - configMapRef:
+          name: pl-cluster-config
+          optional: true
+      image: gcr.io/pixie-oss/pixie-prod/vizier/cert_provisioner_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      name: provisioner
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2lf2z
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: mm1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: updater-service-account
+    serviceAccountName: updater-service-account
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-2lf2z
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:24Z"
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:24Z"
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:24Z"
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:24Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://cba15785caeb232fe312ecf01f8cba2063831c2670345ec17fcabf8b8ddde5fa
+      image: gcr.io/pixie-oss/pixie-prod/vizier/cert_provisioner_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/cert_provisioner_image@sha256:d9a354d7fca57be4398c35e32317aceae135cfb10a9e900b7937e1047de1339d
+      lastState: {}
+      name: provisioner
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: docker://cba15785caeb232fe312ecf01f8cba2063831c2670345ec17fcabf8b8ddde5fa
+          exitCode: 0
+          finishedAt: "2022-11-06T01:48:25Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:48:25Z"
+    hostIP: 192.168.1.10
+    phase: Succeeded
+    podIP: 172.19.120.113
+    podIPs:
+    - ip: 172.19.120.113
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:48:24Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generateName: kelvin-5c46b6b95f-
+    labels:
+      app: pl-monitoring
+      component: vizier
+      name: kelvin
+      plane: data
+      pod-template-hash: 5c46b6b95f
+      vizier-name: pixie
+    name: kelvin-5c46b6b95f-9bdlb
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: kelvin-5c46b6b95f
+      uid: 9eb5f61d-31bd-4d37-b832-ae3d51ddb841
+    resourceVersion: "237673"
+    selfLink: /api/v1/namespaces/pl/pods/kelvin-5c46b6b95f-9bdlb
+    uid: 43decfed-bab2-4c16-910a-a747cf97c95a
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/os
+              operator: Exists
+            - key: kubernetes.io/os
+              operator: In
+              values:
+              - linux
+          - matchExpressions:
+            - key: beta.kubernetes.io/os
+              operator: Exists
+            - key: beta.kubernetes.io/os
+              operator: In
+              values:
+              - linux
+    containers:
+    - env:
+      - name: PL_HOST_PATH
+        value: /host
+      - name: PL_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: PL_CLUSTER_ID
+        valueFrom:
+          secretKeyRef:
+            key: cluster-id
+            name: pl-cluster-secrets
+      - name: PL_SENTRY_DSN
+        valueFrom:
+          secretKeyRef:
+            key: sentry-dsn
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      - name: PL_HOST_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.hostIP
+      - name: PL_JWT_SIGNING_KEY
+        valueFrom:
+          secretKeyRef:
+            key: jwt-signing-key
+            name: pl-cluster-secrets
+      - name: PL_VIZIER_ID
+        valueFrom:
+          secretKeyRef:
+            key: cluster-id
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_VIZIER_NAME
+        valueFrom:
+          secretKeyRef:
+            key: cluster-name
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: TCMALLOC_SAMPLE_PARAMETER
+        value: "1048576"
+      envFrom:
+      - configMapRef:
+          name: pl-tls-config
+      image: gcr.io/pixie-oss/pixie-prod/vizier/kelvin_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      name: app
+      ports:
+      - containerPort: 59300
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /certs
+        name: certs
+      - mountPath: /sys
+        name: sys
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lkjxm
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/readyz"; until [ $(curl
+        -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting
+        for ${URL}" sleep 2; done; '
+      env:
+      - name: SERVICE_NAME
+        value: vizier-cloud-connector-svc
+      - name: SERVICE_PORT
+        value: "50800"
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: cc-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lkjxm
+        readOnly: true
+    - command:
+      - sh
+      - -c
+      - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until [ $(curl
+        -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting
+        for ${URL}" sleep 2; done; '
+      env:
+      - name: SERVICE_NAME
+        value: vizier-query-broker-svc
+      - name: SERVICE_PORT
+        value: "50300"
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: qb-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lkjxm
+        readOnly: true
+    nodeName: ss1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: certs
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - hostPath:
+        path: /sys
+        type: Directory
+      name: sys
+    - name: kube-api-access-lkjxm
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:01Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:26Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:26Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:43Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://f67e13257bb8725d835890f974765ca39555477330c56dd70e3eff523c3b23de
+      image: gcr.io/pixie-oss/pixie-prod/vizier/kelvin_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/kelvin_image@sha256:ebfab9e08667b7718471eb3bd86155a8b3567aaee9713d0051801345dee10a20
+      lastState: {}
+      name: app
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:55:26Z"
+    hostIP: 192.168.1.11
+    initContainerStatuses:
+    - containerID: docker://92c92d23fbbe24d219d6f7f99f90a9f4ac45ec8e292af5f8f0694c3fdf63c161
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: cc-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://92c92d23fbbe24d219d6f7f99f90a9f4ac45ec8e292af5f8f0694c3fdf63c161
+          exitCode: 0
+          finishedAt: "2022-11-06T01:48:23Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:44Z"
+    - containerID: docker://4c331008b642a79fbf6ce300aec695811307d3b5b0f39190a6e38e67f534e3c3
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: qb-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://4c331008b642a79fbf6ce300aec695811307d3b5b0f39190a6e38e67f534e3c3
+          exitCode: 0
+          finishedAt: "2022-11-06T01:55:00Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:48:23Z"
+    phase: Running
+    podIP: 172.16.189.88
+    podIPs:
+    - ip: 172.16.189.88
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:43Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:34Z"
+    generateName: pl-etcd-
+    labels:
+      app: pl-monitoring
+      controller-revision-hash: pl-etcd-777dbbd499
+      etcd_cluster: pl-etcd
+      plane: control
+      statefulset.kubernetes.io/pod-name: pl-etcd-0
+      vizier-name: pixie
+    name: pl-etcd-0
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: pl-etcd
+      uid: 524ff769-f303-43bc-8f1e-0593f1e31654
+    resourceVersion: "235667"
+    selfLink: /api/v1/namespaces/pl/pods/pl-etcd-0
+    uid: 5aef9d65-1eea-4443-aa94-50b2a0b52163
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -ec
+      - |
+        HOSTNAME=$(hostname)
+
+        eps() {
+          EPS=""
+          for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+            EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+          done
+          echo ${EPS}
+        }
+
+        member_hash() {
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+        }
+
+        num_existing() {
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member list | wc -l
+        }
+
+        initial_peers() {
+          PEERS=""
+          for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+            PEERS="${PEERS}${PEERS:+,}${CLUSTER_NAME}-${i}=https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380"
+          done
+          echo ${PEERS}
+        }
+
+        MEMBER_HASH=$(member_hash)
+        EXISTING=$(num_existing)
+
+        # Re-joining after failure?
+        if [ -n "${MEMBER_HASH}" ]; then
+          echo "Re-joining member ${HOSTNAME}"
+
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member remove ${MEMBER_HASH}
+
+          rm -rf /var/run/etcd/*
+          mkdir -p /var/run/etcd/
+        fi
+
+        if [ ${EXISTING} -gt 0 ]; then
+          while true; do
+            echo "Waiting for ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+            ping -W 1 -c 1 ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+            sleep 1s
+          done
+
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member add ${HOSTNAME} --peer-urls=https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | grep "^ETCD_" > /var/run/etcd/new_member_envs
+
+          if [ $? -ne 0 ]; then
+            echo "Member add ${HOSTNAME} error"
+            rm -f /var/run/etcd/new_member_envs
+            exit 1
+          fi
+
+          cat /var/run/etcd/new_member_envs
+          . /var/run/etcd/new_member_envs
+
+          exec etcd --name ${HOSTNAME} \
+              --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+              --listen-peer-urls https://0.0.0.0:2380 \
+              --listen-client-urls https://0.0.0.0:2379 \
+              --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+              --data-dir /var/run/etcd/default.etcd \
+              --initial-cluster ${ETCD_INITIAL_CLUSTER} \
+              --initial-cluster-state ${ETCD_INITIAL_CLUSTER_STATE} \
+              --peer-client-cert-auth=true \
+              --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+              --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+              --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+              --client-cert-auth=true \
+              --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+              --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+              --key-file=/etc/etcdtls/member/server-tls/server.key
+              --max-request-bytes 2000000 \
+              --max-wals 1 \
+              --max-snapshots 1 \
+              --quota-backend-bytes 8589934592 \
+              --snapshot-count 5000
+        fi
+
+        for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+          while true; do
+            echo "Waiting for ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+            ping -W 1 -c 1 ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+            sleep 1s
+          done
+        done
+
+        echo "Joining member ${HOSTNAME}"
+        exec etcd --name ${HOSTNAME} \
+            --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+            --listen-peer-urls https://0.0.0.0:2380 \
+            --listen-client-urls https://0.0.0.0:2379 \
+            --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+            --initial-cluster-token pl-etcd-cluster-1 \
+            --data-dir /var/run/etcd/default.etcd \
+            --initial-cluster $(initial_peers) \
+            --initial-cluster-state new \
+            --peer-client-cert-auth=true \
+            --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+            --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+            --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+            --client-cert-auth=true \
+            --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+            --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+            --key-file=/etc/etcdtls/member/server-tls/server.key
+            --max-request-bytes 2000000 \
+            --max-wals 1 \
+            --max-snapshots 1 \
+            --quota-backend-bytes 8589934592 \
+            --snapshot-count 5000
+      env:
+      - name: INITIAL_CLUSTER_SIZE
+        value: "3"
+      - name: CLUSTER_NAME
+        value: pl-etcd
+      - name: ETCDCTL_API
+        value: "3"
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: ETCD_AUTO_COMPACTION_RETENTION
+        value: "5"
+      - name: ETCD_AUTO_COMPACTION_MODE
+        value: revision
+      image: quay.io/coreos/etcd:v3.4.3
+      imagePullPolicy: IfNotPresent
+      lifecycle:
+        preStop:
+          exec:
+            command:
+            - /bin/sh
+            - -ec
+            - |
+              HOSTNAME=$(hostname)
+
+              member_hash() {
+                etcdctl \
+                    --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                    --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                    --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                    --endpoints=$(eps) \
+                    member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+              }
+
+              eps() {
+                EPS=""
+                for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+                  EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+                done
+                echo ${EPS}
+              }
+
+              MEMBER_HASH=$(member_hash)
+
+              # Removing member from cluster
+              if [ -n "${MEMBER_HASH}" ]; then
+                echo "Removing ${HOSTNAME} from etcd cluster"
+                etcdctl \
+                    --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                    --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                    --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                    --endpoints=$(eps) \
+                    member remove $(member_hash)
+                if [ $? -eq 0 ]; then
+                  # Remove everything otherwise the cluster will no longer scale-up
+                  rm -rf /var/run/etcd/*
+                fi
+              fi
+      name: etcd
+      ports:
+      - containerPort: 2379
+        name: client
+        protocol: TCP
+      - containerPort: 2380
+        name: server
+        protocol: TCP
+      readinessProbe:
+        exec:
+          command:
+          - /bin/sh
+          - -ec
+          - etcdctl --endpoints=https://localhost:2379 --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt
+            --key=/etc/etcdtls/client/etcd-tls/etcd-client.key --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt
+            endpoint status
+        failureThreshold: 3
+        initialDelaySeconds: 1
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/etcd
+        name: etcd-data
+      - mountPath: /etc/etcdtls/member/peer-tls
+        name: member-peer-tls
+      - mountPath: /etc/etcdtls/member/server-tls
+        name: member-server-tls
+      - mountPath: /etc/etcdtls/client/etcd-tls
+        name: etcd-client-tls
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-96cvz
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostname: pl-etcd-0
+    nodeName: mm1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    subdomain: pl-etcd
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: member-peer-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-peer-tls-certs
+    - name: member-server-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-server-tls-certs
+    - name: etcd-client-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-client-tls-certs
+    - emptyDir: {}
+      name: etcd-data
+    - name: kube-api-access-96cvz
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:34Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:46:57Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:46:57Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:34Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://d14785c9fe17eca9d0a984dd7f7598e0526c7a92d2ed8ee5ba289c6d4261e16c
+      image: quay.io/coreos/etcd:v3.4.3
+      imageID: docker-pullable://quay.io/coreos/etcd@sha256:41ed47389c835eb68215e8215f6d4bfa5123923afd7550dbae049cded27c41b4
+      lastState: {}
+      name: etcd
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:45:35Z"
+    hostIP: 192.168.1.10
+    phase: Running
+    podIP: 172.19.120.110
+    podIPs:
+    - ip: 172.19.120.110
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:34Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:34Z"
+    generateName: pl-etcd-
+    labels:
+      app: pl-monitoring
+      controller-revision-hash: pl-etcd-777dbbd499
+      etcd_cluster: pl-etcd
+      plane: control
+      statefulset.kubernetes.io/pod-name: pl-etcd-1
+      vizier-name: pixie
+    name: pl-etcd-1
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: pl-etcd
+      uid: 524ff769-f303-43bc-8f1e-0593f1e31654
+    resourceVersion: "235844"
+    selfLink: /api/v1/namespaces/pl/pods/pl-etcd-1
+    uid: 337f05e0-e190-41b7-bba3-93a0dbd2ea1d
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -ec
+      - |
+        HOSTNAME=$(hostname)
+
+        eps() {
+          EPS=""
+          for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+            EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+          done
+          echo ${EPS}
+        }
+
+        member_hash() {
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+        }
+
+        num_existing() {
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member list | wc -l
+        }
+
+        initial_peers() {
+          PEERS=""
+          for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+            PEERS="${PEERS}${PEERS:+,}${CLUSTER_NAME}-${i}=https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380"
+          done
+          echo ${PEERS}
+        }
+
+        MEMBER_HASH=$(member_hash)
+        EXISTING=$(num_existing)
+
+        # Re-joining after failure?
+        if [ -n "${MEMBER_HASH}" ]; then
+          echo "Re-joining member ${HOSTNAME}"
+
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member remove ${MEMBER_HASH}
+
+          rm -rf /var/run/etcd/*
+          mkdir -p /var/run/etcd/
+        fi
+
+        if [ ${EXISTING} -gt 0 ]; then
+          while true; do
+            echo "Waiting for ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+            ping -W 1 -c 1 ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+            sleep 1s
+          done
+
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member add ${HOSTNAME} --peer-urls=https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | grep "^ETCD_" > /var/run/etcd/new_member_envs
+
+          if [ $? -ne 0 ]; then
+            echo "Member add ${HOSTNAME} error"
+            rm -f /var/run/etcd/new_member_envs
+            exit 1
+          fi
+
+          cat /var/run/etcd/new_member_envs
+          . /var/run/etcd/new_member_envs
+
+          exec etcd --name ${HOSTNAME} \
+              --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+              --listen-peer-urls https://0.0.0.0:2380 \
+              --listen-client-urls https://0.0.0.0:2379 \
+              --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+              --data-dir /var/run/etcd/default.etcd \
+              --initial-cluster ${ETCD_INITIAL_CLUSTER} \
+              --initial-cluster-state ${ETCD_INITIAL_CLUSTER_STATE} \
+              --peer-client-cert-auth=true \
+              --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+              --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+              --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+              --client-cert-auth=true \
+              --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+              --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+              --key-file=/etc/etcdtls/member/server-tls/server.key
+              --max-request-bytes 2000000 \
+              --max-wals 1 \
+              --max-snapshots 1 \
+              --quota-backend-bytes 8589934592 \
+              --snapshot-count 5000
+        fi
+
+        for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+          while true; do
+            echo "Waiting for ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+            ping -W 1 -c 1 ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+            sleep 1s
+          done
+        done
+
+        echo "Joining member ${HOSTNAME}"
+        exec etcd --name ${HOSTNAME} \
+            --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+            --listen-peer-urls https://0.0.0.0:2380 \
+            --listen-client-urls https://0.0.0.0:2379 \
+            --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+            --initial-cluster-token pl-etcd-cluster-1 \
+            --data-dir /var/run/etcd/default.etcd \
+            --initial-cluster $(initial_peers) \
+            --initial-cluster-state new \
+            --peer-client-cert-auth=true \
+            --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+            --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+            --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+            --client-cert-auth=true \
+            --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+            --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+            --key-file=/etc/etcdtls/member/server-tls/server.key
+            --max-request-bytes 2000000 \
+            --max-wals 1 \
+            --max-snapshots 1 \
+            --quota-backend-bytes 8589934592 \
+            --snapshot-count 5000
+      env:
+      - name: INITIAL_CLUSTER_SIZE
+        value: "3"
+      - name: CLUSTER_NAME
+        value: pl-etcd
+      - name: ETCDCTL_API
+        value: "3"
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: ETCD_AUTO_COMPACTION_RETENTION
+        value: "5"
+      - name: ETCD_AUTO_COMPACTION_MODE
+        value: revision
+      image: quay.io/coreos/etcd:v3.4.3
+      imagePullPolicy: IfNotPresent
+      lifecycle:
+        preStop:
+          exec:
+            command:
+            - /bin/sh
+            - -ec
+            - |
+              HOSTNAME=$(hostname)
+
+              member_hash() {
+                etcdctl \
+                    --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                    --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                    --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                    --endpoints=$(eps) \
+                    member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+              }
+
+              eps() {
+                EPS=""
+                for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+                  EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+                done
+                echo ${EPS}
+              }
+
+              MEMBER_HASH=$(member_hash)
+
+              # Removing member from cluster
+              if [ -n "${MEMBER_HASH}" ]; then
+                echo "Removing ${HOSTNAME} from etcd cluster"
+                etcdctl \
+                    --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                    --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                    --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                    --endpoints=$(eps) \
+                    member remove $(member_hash)
+                if [ $? -eq 0 ]; then
+                  # Remove everything otherwise the cluster will no longer scale-up
+                  rm -rf /var/run/etcd/*
+                fi
+              fi
+      name: etcd
+      ports:
+      - containerPort: 2379
+        name: client
+        protocol: TCP
+      - containerPort: 2380
+        name: server
+        protocol: TCP
+      readinessProbe:
+        exec:
+          command:
+          - /bin/sh
+          - -ec
+          - etcdctl --endpoints=https://localhost:2379 --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt
+            --key=/etc/etcdtls/client/etcd-tls/etcd-client.key --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt
+            endpoint status
+        failureThreshold: 3
+        initialDelaySeconds: 1
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/etcd
+        name: etcd-data
+      - mountPath: /etc/etcdtls/member/peer-tls
+        name: member-peer-tls
+      - mountPath: /etc/etcdtls/member/server-tls
+        name: member-server-tls
+      - mountPath: /etc/etcdtls/client/etcd-tls
+        name: etcd-client-tls
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-svbhz
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostname: pl-etcd-1
+    nodeName: ss1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    subdomain: pl-etcd
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: member-peer-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-peer-tls-certs
+    - name: member-server-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-server-tls-certs
+    - name: etcd-client-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-client-tls-certs
+    - emptyDir: {}
+      name: etcd-data
+    - name: kube-api-access-svbhz
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:34Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:47:48Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:47:48Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:34Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://61f260f9dec2e90a457338cfaac4aeff3a6623b79b1453f14629541921602229
+      image: quay.io/coreos/etcd:v3.4.3
+      imageID: docker-pullable://quay.io/coreos/etcd@sha256:41ed47389c835eb68215e8215f6d4bfa5123923afd7550dbae049cded27c41b4
+      lastState:
+        terminated:
+          containerID: docker://c8723d743c502daa32d0598fa91642403981f988aeb80730f92964435b8180f2
+          exitCode: 1
+          finishedAt: "2022-11-06T01:47:19Z"
+          reason: Error
+          startedAt: "2022-11-06T01:47:13Z"
+      name: etcd
+      ready: true
+      restartCount: 3
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:47:46Z"
+    hostIP: 192.168.1.11
+    phase: Running
+    podIP: 172.16.189.82
+    podIPs:
+    - ip: 172.16.189.82
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:34Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:34Z"
+    generateName: pl-etcd-
+    labels:
+      app: pl-monitoring
+      controller-revision-hash: pl-etcd-777dbbd499
+      etcd_cluster: pl-etcd
+      plane: control
+      statefulset.kubernetes.io/pod-name: pl-etcd-2
+      vizier-name: pixie
+    name: pl-etcd-2
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: pl-etcd
+      uid: 524ff769-f303-43bc-8f1e-0593f1e31654
+    resourceVersion: "235668"
+    selfLink: /api/v1/namespaces/pl/pods/pl-etcd-2
+    uid: 378216bf-d5a6-4976-a9c9-ae2a26233930
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -ec
+      - |
+        HOSTNAME=$(hostname)
+
+        eps() {
+          EPS=""
+          for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+            EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+          done
+          echo ${EPS}
+        }
+
+        member_hash() {
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+        }
+
+        num_existing() {
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member list | wc -l
+        }
+
+        initial_peers() {
+          PEERS=""
+          for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+            PEERS="${PEERS}${PEERS:+,}${CLUSTER_NAME}-${i}=https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380"
+          done
+          echo ${PEERS}
+        }
+
+        MEMBER_HASH=$(member_hash)
+        EXISTING=$(num_existing)
+
+        # Re-joining after failure?
+        if [ -n "${MEMBER_HASH}" ]; then
+          echo "Re-joining member ${HOSTNAME}"
+
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member remove ${MEMBER_HASH}
+
+          rm -rf /var/run/etcd/*
+          mkdir -p /var/run/etcd/
+        fi
+
+        if [ ${EXISTING} -gt 0 ]; then
+          while true; do
+            echo "Waiting for ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+            ping -W 1 -c 1 ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+            sleep 1s
+          done
+
+          etcdctl \
+              --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+              --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+              --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+              --endpoints=$(eps) \
+              member add ${HOSTNAME} --peer-urls=https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | grep "^ETCD_" > /var/run/etcd/new_member_envs
+
+          if [ $? -ne 0 ]; then
+            echo "Member add ${HOSTNAME} error"
+            rm -f /var/run/etcd/new_member_envs
+            exit 1
+          fi
+
+          cat /var/run/etcd/new_member_envs
+          . /var/run/etcd/new_member_envs
+
+          exec etcd --name ${HOSTNAME} \
+              --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+              --listen-peer-urls https://0.0.0.0:2380 \
+              --listen-client-urls https://0.0.0.0:2379 \
+              --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+              --data-dir /var/run/etcd/default.etcd \
+              --initial-cluster ${ETCD_INITIAL_CLUSTER} \
+              --initial-cluster-state ${ETCD_INITIAL_CLUSTER_STATE} \
+              --peer-client-cert-auth=true \
+              --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+              --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+              --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+              --client-cert-auth=true \
+              --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+              --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+              --key-file=/etc/etcdtls/member/server-tls/server.key
+              --max-request-bytes 2000000 \
+              --max-wals 1 \
+              --max-snapshots 1 \
+              --quota-backend-bytes 8589934592 \
+              --snapshot-count 5000
+        fi
+
+        for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+          while true; do
+            echo "Waiting for ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+            ping -W 1 -c 1 ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+            sleep 1s
+          done
+        done
+
+        echo "Joining member ${HOSTNAME}"
+        exec etcd --name ${HOSTNAME} \
+            --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+            --listen-peer-urls https://0.0.0.0:2380 \
+            --listen-client-urls https://0.0.0.0:2379 \
+            --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+            --initial-cluster-token pl-etcd-cluster-1 \
+            --data-dir /var/run/etcd/default.etcd \
+            --initial-cluster $(initial_peers) \
+            --initial-cluster-state new \
+            --peer-client-cert-auth=true \
+            --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+            --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+            --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+            --client-cert-auth=true \
+            --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+            --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+            --key-file=/etc/etcdtls/member/server-tls/server.key
+            --max-request-bytes 2000000 \
+            --max-wals 1 \
+            --max-snapshots 1 \
+            --quota-backend-bytes 8589934592 \
+            --snapshot-count 5000
+      env:
+      - name: INITIAL_CLUSTER_SIZE
+        value: "3"
+      - name: CLUSTER_NAME
+        value: pl-etcd
+      - name: ETCDCTL_API
+        value: "3"
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: ETCD_AUTO_COMPACTION_RETENTION
+        value: "5"
+      - name: ETCD_AUTO_COMPACTION_MODE
+        value: revision
+      image: quay.io/coreos/etcd:v3.4.3
+      imagePullPolicy: IfNotPresent
+      lifecycle:
+        preStop:
+          exec:
+            command:
+            - /bin/sh
+            - -ec
+            - |
+              HOSTNAME=$(hostname)
+
+              member_hash() {
+                etcdctl \
+                    --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                    --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                    --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                    --endpoints=$(eps) \
+                    member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+              }
+
+              eps() {
+                EPS=""
+                for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+                  EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+                done
+                echo ${EPS}
+              }
+
+              MEMBER_HASH=$(member_hash)
+
+              # Removing member from cluster
+              if [ -n "${MEMBER_HASH}" ]; then
+                echo "Removing ${HOSTNAME} from etcd cluster"
+                etcdctl \
+                    --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                    --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                    --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                    --endpoints=$(eps) \
+                    member remove $(member_hash)
+                if [ $? -eq 0 ]; then
+                  # Remove everything otherwise the cluster will no longer scale-up
+                  rm -rf /var/run/etcd/*
+                fi
+              fi
+      name: etcd
+      ports:
+      - containerPort: 2379
+        name: client
+        protocol: TCP
+      - containerPort: 2380
+        name: server
+        protocol: TCP
+      readinessProbe:
+        exec:
+          command:
+          - /bin/sh
+          - -ec
+          - etcdctl --endpoints=https://localhost:2379 --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt
+            --key=/etc/etcdtls/client/etcd-tls/etcd-client.key --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt
+            endpoint status
+        failureThreshold: 3
+        initialDelaySeconds: 1
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/etcd
+        name: etcd-data
+      - mountPath: /etc/etcdtls/member/peer-tls
+        name: member-peer-tls
+      - mountPath: /etc/etcdtls/member/server-tls
+        name: member-server-tls
+      - mountPath: /etc/etcdtls/client/etcd-tls
+        name: etcd-client-tls
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6flmd
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostname: pl-etcd-2
+    nodeName: ss2
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    subdomain: pl-etcd
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: member-peer-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-peer-tls-certs
+    - name: member-server-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-server-tls-certs
+    - name: etcd-client-tls
+      secret:
+        defaultMode: 420
+        secretName: etcd-client-tls-certs
+    - emptyDir: {}
+      name: etcd-data
+    - name: kube-api-access-6flmd
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:34Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:46:57Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:46:57Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:34Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://9bacbe755f2fcf3ab5b3ccfb06805a2ce40fbe51aa528fe99b50d23002aa330d
+      image: quay.io/coreos/etcd:v3.4.3
+      imageID: docker-pullable://quay.io/coreos/etcd@sha256:41ed47389c835eb68215e8215f6d4bfa5123923afd7550dbae049cded27c41b4
+      lastState: {}
+      name: etcd
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:45:35Z"
+    hostIP: 192.168.1.12
+    phase: Running
+    podIP: 172.20.39.83
+    podIPs:
+    - ip: 172.20.39.83
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:34Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:25Z"
+    generateName: pl-nats-
+    labels:
+      app: pl-monitoring
+      controller-revision-hash: pl-nats-856f765774
+      name: pl-nats
+      plane: control
+      statefulset.kubernetes.io/pod-name: pl-nats-0
+      vizier-name: pixie
+    name: pl-nats-0
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: pl-nats
+      uid: 53481296-f3de-4e9a-9c43-e0c9d8fa703e
+    resourceVersion: "235927"
+    selfLink: /api/v1/namespaces/pl/pods/pl-nats-0
+    uid: fb2ff022-08ed-44ca-a72d-a02a4206f5cb
+  spec:
+    containers:
+    - command:
+      - nats-server
+      - --config
+      - /etc/nats-config/nats.conf
+      env:
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: CLUSTER_ADVERTISE
+        value: $(POD_NAME).pl-nats.$(POD_NAMESPACE).svc
+      image: gcr.io/pixie-oss/pixie-prod/vizier-deps/nats:2.8.4-alpine3.15
+      imagePullPolicy: IfNotPresent
+      lifecycle:
+        preStop:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - /nats-server -sl=ldm=/var/run/nats/nats.pid && /bin/sleep 60
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 8222
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 5
+      name: pl-nats
+      ports:
+      - containerPort: 4222
+        name: client
+        protocol: TCP
+      - containerPort: 7422
+        name: leafnodes
+        protocol: TCP
+      - containerPort: 6222
+        name: cluster
+        protocol: TCP
+      - containerPort: 8222
+        name: monitor
+        protocol: TCP
+      - containerPort: 7777
+        name: metrics
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 8222
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 5
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/nats-config
+        name: config-volume
+      - mountPath: /etc/nats-server-tls-certs
+        name: nats-server-tls-volume
+      - mountPath: /var/run/nats
+        name: pid
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-zbxf8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    hostname: pl-nats-0
+    nodeName: ss1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    shareProcessNamespace: true
+    subdomain: pl-nats
+    terminationGracePeriodSeconds: 60
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: nats-server-tls-volume
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - configMap:
+        defaultMode: 420
+        name: nats-config
+      name: config-volume
+    - emptyDir: {}
+      name: pid
+    - name: kube-api-access-zbxf8
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:25Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:15Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:15Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:25Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://5835a3051faec4f92b8e8552fb5aae91369805a095ffeeb3b935bc15cb2cb079
+      image: gcr.io/pixie-oss/pixie-prod/vizier-deps/nats:2.8.4-alpine3.15
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier-deps/nats@sha256:4199deae36b30cf612a8a5ac96614e60dba809dd72d73a5d3534faa521a12261
+      lastState: {}
+      name: pl-nats
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:48:05Z"
+    hostIP: 192.168.1.11
+    phase: Running
+    podIP: 172.16.189.85
+    podIPs:
+    - ip: 172.16.189.85
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:25Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cluster-id: 4413ae2d-e622-46ea-a37e-552feb18cef2
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generateName: vizier-cloud-connector-7bdb8d68c6-
+    labels:
+      app: pl-monitoring
+      cluster-id: 4413ae2d-e622-46ea-a37e-552feb18cef2
+      component: vizier
+      name: vizier-cloud-connector
+      plane: control
+      pod-template-hash: 7bdb8d68c6
+      vizier-bootstrap: "true"
+      vizier-name: pixie
+    name: vizier-cloud-connector-7bdb8d68c6-n62dj
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: vizier-cloud-connector-7bdb8d68c6
+      uid: 29a70e77-8fb0-459a-af71-5611af5d6932
+    resourceVersion: "235968"
+    selfLink: /api/v1/namespaces/pl/pods/vizier-cloud-connector-7bdb8d68c6-n62dj
+    uid: b14e8970-895e-4db7-9f32-e5588bdac6bd
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/os
+              operator: Exists
+            - key: kubernetes.io/os
+              operator: In
+              values:
+              - linux
+          - matchExpressions:
+            - key: beta.kubernetes.io/os
+              operator: Exists
+            - key: beta.kubernetes.io/os
+              operator: In
+              values:
+              - linux
+    containers:
+    - env:
+      - name: PL_JWT_SIGNING_KEY
+        valueFrom:
+          secretKeyRef:
+            key: jwt-signing-key
+            name: pl-cluster-secrets
+      - name: PL_CLUSTER_ID
+        valueFrom:
+          secretKeyRef:
+            key: cluster-id
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_VIZIER_NAME
+        valueFrom:
+          secretKeyRef:
+            key: cluster-name
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_DEPLOY_KEY
+        valueFrom:
+          secretKeyRef:
+            key: deploy-key
+            name: pl-deploy-secrets
+            optional: true
+      - name: PL_POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: PL_MAX_EXPECTED_CLOCK_SKEW
+        value: "2000"
+      - name: PL_RENEW_PERIOD
+        value: "7500"
+      envFrom:
+      - configMapRef:
+          name: pl-cloud-config
+      - configMapRef:
+          name: pl-cloud-connector-tls-config
+      - configMapRef:
+          name: pl-cluster-config
+          optional: true
+      image: gcr.io/pixie-oss/pixie-prod/vizier/cloud_connector_server_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 50800
+          scheme: HTTPS
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: app
+      ports:
+      - containerPort: 50800
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /certs
+        name: certs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-nqk29
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - set -xe; URL="${PROTOCOL}://${SERVICE_NAME}:${SERVICE_PORT}${HEALTH_PATH}";
+        until [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200
+        ]; do echo "waiting for ${URL}"; sleep 2; done;
+      env:
+      - name: SERVICE_NAME
+        value: pl-nats-mgmt
+      - name: SERVICE_PORT
+        value: "8222"
+      - name: HEALTH_PATH
+      - name: PROTOCOL
+        value: http
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: nats-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-nqk29
+        readOnly: true
+    nodeName: mm1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: cloud-conn-service-account
+    serviceAccountName: cloud-conn-service-account
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: certs
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - name: kube-api-access-nqk29
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:21Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:22Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:22Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:43Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://52cfd42d86a1e95b4870951be9873cfdac1b82655090683939f9bc5c9b054891
+      image: gcr.io/pixie-oss/pixie-prod/vizier/cloud_connector_server_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/cloud_connector_server_image@sha256:2a2fbc23783d546a41fcbcd9ff4525c7d11160128970356f191a0ffbd98c0c0a
+      lastState: {}
+      name: app
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:48:21Z"
+    hostIP: 192.168.1.10
+    initContainerStatuses:
+    - containerID: docker://c30d8ee95fef8cc0afcb939a0b0d21b67ad5006e23fe32b844dde50e5f109f33
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: nats-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://c30d8ee95fef8cc0afcb939a0b0d21b67ad5006e23fe32b844dde50e5f109f33
+          exitCode: 0
+          finishedAt: "2022-11-06T01:48:21Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:44Z"
+    phase: Running
+    podIP: 172.19.120.111
+    podIPs:
+    - ip: 172.19.120.111
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:43Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      px.dev/metrics_port: "50400"
+      px.dev/metrics_scrape: "true"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generateName: vizier-metadata-fb996d85d-
+    labels:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-metadata
+      plane: control
+      pod-template-hash: fb996d85d
+      vizier-name: pixie
+    name: vizier-metadata-fb996d85d-4jrml
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: vizier-metadata-fb996d85d
+      uid: 581b74de-56d5-41c8-9068-7606307d05a8
+    resourceVersion: "236519"
+    selfLink: /api/v1/namespaces/pl/pods/vizier-metadata-fb996d85d-4jrml
+    uid: 0e17e196-456d-4fe6-b0ef-56de9cbfb1b1
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/os
+              operator: Exists
+            - key: kubernetes.io/os
+              operator: In
+              values:
+              - linux
+          - matchExpressions:
+            - key: beta.kubernetes.io/os
+              operator: Exists
+            - key: beta.kubernetes.io/os
+              operator: In
+              values:
+              - linux
+    containers:
+    - env:
+      - name: PL_JWT_SIGNING_KEY
+        valueFrom:
+          secretKeyRef:
+            key: jwt-signing-key
+            name: pl-cluster-secrets
+      - name: PL_POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: PL_MAX_EXPECTED_CLOCK_SKEW
+        value: "2000"
+      - name: PL_RENEW_PERIOD
+        value: "7500"
+      envFrom:
+      - configMapRef:
+          name: pl-tls-config
+      - configMapRef:
+          name: pl-cluster-config
+          optional: true
+      image: gcr.io/pixie-oss/pixie-prod/vizier/metadata_server_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 50400
+          scheme: HTTPS
+        initialDelaySeconds: 120
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: app
+      readinessProbe:
+        failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: 50400
+          scheme: HTTPS
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /certs
+        name: certs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-f4529
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - set -xe; URL="${PROTOCOL}://${SERVICE_NAME}:${SERVICE_PORT}${HEALTH_PATH}";
+        until [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200
+        ]; do echo "waiting for ${URL}"; sleep 2; done;
+      env:
+      - name: SERVICE_NAME
+        value: pl-nats-mgmt
+      - name: SERVICE_PORT
+        value: "8222"
+      - name: HEALTH_PATH
+      - name: PROTOCOL
+        value: http
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: nats-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-f4529
+        readOnly: true
+    - command:
+      - sh
+      - -c
+      - set -xe; ETCD_PATH="${PL_MD_ETCD_SERVER}"; if [ ! ${ETCD_PATH} ]; then ETCD_PATH="${DEFAULT_ETCD_PATH}";
+        fi; URL="${ETCD_PATH}${HEALTH_PATH}"; until [ $(curl --cacert /certs/ca.crt
+        --key /certs/client.key --cert /certs/client.crt -m 0.5 -s -o /dev/null -w
+        "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting for ${URL}"; sleep 2;
+        done;
+      env:
+      - name: HEALTH_PATH
+        value: /health
+      - name: DEFAULT_ETCD_PATH
+        value: https://pl-etcd-client.pl.svc:2379
+      envFrom:
+      - configMapRef:
+          name: pl-cluster-config
+          optional: true
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: etcd-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /certs
+        name: certs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-f4529
+        readOnly: true
+    nodeName: ss1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: metadata-service-account
+    serviceAccountName: metadata-service-account
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: certs
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - name: kube-api-access-f4529
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:48:22Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:50:43Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:50:43Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:43Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://16d9ee40cc121fd76772edc8e2ec65a2bc6ee9abd3ba5bb91934990e9883dfb0
+      image: gcr.io/pixie-oss/pixie-prod/vizier/metadata_server_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/metadata_server_image@sha256:f3ee21d1fe138a66adc0c91adb8746b262f0743ef7816e48bd3f5a5d345daae3
+      lastState: {}
+      name: app
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:50:09Z"
+    hostIP: 192.168.1.11
+    initContainerStatuses:
+    - containerID: docker://046f2c985900a16bf2cab4970da15b302187fab8b36643452b7faf0b10ff31a0
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: nats-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://046f2c985900a16bf2cab4970da15b302187fab8b36643452b7faf0b10ff31a0
+          exitCode: 0
+          finishedAt: "2022-11-06T01:48:21Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:44Z"
+    - containerID: docker://172d0027bca6cda38713cb739990177a9885c3f231869f5a6455aa595cab8c85
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: etcd-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://172d0027bca6cda38713cb739990177a9885c3f231869f5a6455aa595cab8c85
+          exitCode: 0
+          finishedAt: "2022-11-06T01:48:21Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:48:21Z"
+    phase: Running
+    podIP: 172.16.189.86
+    podIPs:
+    - ip: 172.16.189.86
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:43Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generateName: vizier-pem-
+    labels:
+      app: pl-monitoring
+      component: vizier
+      controller-revision-hash: 75b496f6cf
+      name: vizier-pem
+      plane: data
+      pod-template-generation: "1"
+      vizier-name: pixie
+    name: vizier-pem-86lhk
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: vizier-pem
+      uid: bcfbda18-2bf7-45b5-95bf-b750e591a415
+    resourceVersion: "237949"
+    selfLink: /api/v1/namespaces/pl/pods/vizier-pem-86lhk
+    uid: fbb02c06-623e-4325-bd93-64a72e91fdd4
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ss1
+    containers:
+    - env:
+      - name: PL_PEM_ENV_VAR_PLACEHOLDER
+        value: "true"
+      - name: PL_PROFILER_JAVA_SYMBOLS
+        value: "true"
+      - name: PL_TABLE_STORE_DATA_LIMIT_MB
+        value: "614"
+      - name: TCMALLOC_SAMPLE_PARAMETER
+        value: "1048576"
+      - name: PL_CLIENT_TLS_CERT
+        value: /certs/client.crt
+      - name: PL_CLIENT_TLS_KEY
+        value: /certs/client.key
+      - name: PL_TLS_CA_CERT
+        value: /certs/ca.crt
+      - name: PL_DISABLE_SSL
+        value: "false"
+      - name: PL_HOST_PATH
+        value: /host
+      - name: PL_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: PL_HOST_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.hostIP
+      - name: PL_JWT_SIGNING_KEY
+        valueFrom:
+          secretKeyRef:
+            key: jwt-signing-key
+            name: pl-cluster-secrets
+      - name: PL_VIZIER_ID
+        valueFrom:
+          secretKeyRef:
+            key: cluster-id
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_VIZIER_NAME
+        valueFrom:
+          secretKeyRef:
+            key: cluster-name
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_CLOCK_CONVERTER
+        value: default
+      image: gcr.io/pixie-oss/pixie-prod/vizier/pem_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      name: pem
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          memory: 1Gi
+      securityContext:
+        capabilities:
+          add:
+          - SYS_PTRACE
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /host
+        name: host-root
+        readOnly: true
+      - mountPath: /sys
+        name: sys
+        readOnly: true
+      - mountPath: /certs
+        name: certs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-crcq5
+        readOnly: true
+    dnsPolicy: ClusterFirstWithHostNet
+    enableServiceLinks: true
+    hostNetwork: true
+    hostPID: true
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - ' set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until [ $(curl
+        -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting
+        for ${URL}" sleep 2; done; '
+      env:
+      - name: SERVICE_NAME
+        value: vizier-query-broker-svc
+      - name: SERVICE_PORT
+        value: "50300"
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: qb-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-crcq5
+        readOnly: true
+    nodeName: ss1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+    - effect: NoExecute
+      operator: Exists
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /
+        type: Directory
+      name: host-root
+    - hostPath:
+        path: /sys
+        type: Directory
+      name: sys
+    - name: certs
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - name: kube-api-access-crcq5
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:01Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:56:38Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:56:38Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:43Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://ec32d559dc07d2b0adf89003058149528b602a45aea437cc1c0c8c1093c667a5
+      image: gcr.io/pixie-oss/pixie-prod/vizier/pem_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/pem_image@sha256:0daba2a5ef9a7a03fa28cd4ad5c66382a2d543dd4bc85d4ef0319a214359f280
+      lastState: {}
+      name: pem
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:56:37Z"
+    hostIP: 192.168.1.11
+    initContainerStatuses:
+    - containerID: docker://8f8ce3364338bd2b9aae87df92481aaa3be7ad2b0b1a68a65b9d180aa916f500
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: qb-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://8f8ce3364338bd2b9aae87df92481aaa3be7ad2b0b1a68a65b9d180aa916f500
+          exitCode: 0
+          finishedAt: "2022-11-06T01:55:01Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:44Z"
+    phase: Running
+    podIP: 192.168.1.11
+    podIPs:
+    - ip: 192.168.1.11
+    qosClass: Burstable
+    startTime: "2022-11-06T01:45:43Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generateName: vizier-pem-
+    labels:
+      app: pl-monitoring
+      component: vizier
+      controller-revision-hash: 75b496f6cf
+      name: vizier-pem
+      plane: data
+      pod-template-generation: "1"
+      vizier-name: pixie
+    name: vizier-pem-d56dj
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: vizier-pem
+      uid: bcfbda18-2bf7-45b5-95bf-b750e591a415
+    resourceVersion: "237575"
+    selfLink: /api/v1/namespaces/pl/pods/vizier-pem-d56dj
+    uid: 4959fd5e-b6d2-4959-8ef5-91f60ee01a55
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ss2
+    containers:
+    - env:
+      - name: PL_PEM_ENV_VAR_PLACEHOLDER
+        value: "true"
+      - name: PL_PROFILER_JAVA_SYMBOLS
+        value: "true"
+      - name: PL_TABLE_STORE_DATA_LIMIT_MB
+        value: "614"
+      - name: TCMALLOC_SAMPLE_PARAMETER
+        value: "1048576"
+      - name: PL_CLIENT_TLS_CERT
+        value: /certs/client.crt
+      - name: PL_CLIENT_TLS_KEY
+        value: /certs/client.key
+      - name: PL_TLS_CA_CERT
+        value: /certs/ca.crt
+      - name: PL_DISABLE_SSL
+        value: "false"
+      - name: PL_HOST_PATH
+        value: /host
+      - name: PL_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: PL_HOST_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.hostIP
+      - name: PL_JWT_SIGNING_KEY
+        valueFrom:
+          secretKeyRef:
+            key: jwt-signing-key
+            name: pl-cluster-secrets
+      - name: PL_VIZIER_ID
+        valueFrom:
+          secretKeyRef:
+            key: cluster-id
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_VIZIER_NAME
+        valueFrom:
+          secretKeyRef:
+            key: cluster-name
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_CLOCK_CONVERTER
+        value: default
+      image: gcr.io/pixie-oss/pixie-prod/vizier/pem_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      name: pem
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          memory: 1Gi
+      securityContext:
+        capabilities:
+          add:
+          - SYS_PTRACE
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /host
+        name: host-root
+        readOnly: true
+      - mountPath: /sys
+        name: sys
+        readOnly: true
+      - mountPath: /certs
+        name: certs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-49phs
+        readOnly: true
+    dnsPolicy: ClusterFirstWithHostNet
+    enableServiceLinks: true
+    hostNetwork: true
+    hostPID: true
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - ' set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until [ $(curl
+        -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting
+        for ${URL}" sleep 2; done; '
+      env:
+      - name: SERVICE_NAME
+        value: vizier-query-broker-svc
+      - name: SERVICE_PORT
+        value: "50300"
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: qb-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-49phs
+        readOnly: true
+    nodeName: ss2
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+    - effect: NoExecute
+      operator: Exists
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /
+        type: Directory
+      name: host-root
+    - hostPath:
+        path: /sys
+        type: Directory
+      name: sys
+    - name: certs
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - name: kube-api-access-49phs
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:01Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:02Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:02Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:43Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://e48a8e72de0b155ddc2079152e972e08c80933e1f8c62c05c2f14f7b4c709de8
+      image: gcr.io/pixie-oss/pixie-prod/vizier/pem_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/pem_image@sha256:0daba2a5ef9a7a03fa28cd4ad5c66382a2d543dd4bc85d4ef0319a214359f280
+      lastState: {}
+      name: pem
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:55:01Z"
+    hostIP: 192.168.1.12
+    initContainerStatuses:
+    - containerID: docker://43987efec82a8dc8bcf22e2a688f48f6f0af82b1828e395b52b3415608b0ccf4
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: qb-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://43987efec82a8dc8bcf22e2a688f48f6f0af82b1828e395b52b3415608b0ccf4
+          exitCode: 0
+          finishedAt: "2022-11-06T01:55:00Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:43Z"
+    phase: Running
+    podIP: 192.168.1.12
+    podIPs:
+    - ip: 192.168.1.12
+    qosClass: Burstable
+    startTime: "2022-11-06T01:45:43Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generateName: vizier-pem-
+    labels:
+      app: pl-monitoring
+      component: vizier
+      controller-revision-hash: 75b496f6cf
+      name: vizier-pem
+      plane: data
+      pod-template-generation: "1"
+      vizier-name: pixie
+    name: vizier-pem-zp7qr
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: vizier-pem
+      uid: bcfbda18-2bf7-45b5-95bf-b750e591a415
+    resourceVersion: "237573"
+    selfLink: /api/v1/namespaces/pl/pods/vizier-pem-zp7qr
+    uid: 19b1be01-e860-4e72-9138-b2a93493a91d
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - mm1
+    containers:
+    - env:
+      - name: PL_PEM_ENV_VAR_PLACEHOLDER
+        value: "true"
+      - name: PL_PROFILER_JAVA_SYMBOLS
+        value: "true"
+      - name: PL_TABLE_STORE_DATA_LIMIT_MB
+        value: "614"
+      - name: TCMALLOC_SAMPLE_PARAMETER
+        value: "1048576"
+      - name: PL_CLIENT_TLS_CERT
+        value: /certs/client.crt
+      - name: PL_CLIENT_TLS_KEY
+        value: /certs/client.key
+      - name: PL_TLS_CA_CERT
+        value: /certs/ca.crt
+      - name: PL_DISABLE_SSL
+        value: "false"
+      - name: PL_HOST_PATH
+        value: /host
+      - name: PL_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: PL_HOST_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.hostIP
+      - name: PL_JWT_SIGNING_KEY
+        valueFrom:
+          secretKeyRef:
+            key: jwt-signing-key
+            name: pl-cluster-secrets
+      - name: PL_VIZIER_ID
+        valueFrom:
+          secretKeyRef:
+            key: cluster-id
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_VIZIER_NAME
+        valueFrom:
+          secretKeyRef:
+            key: cluster-name
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_CLOCK_CONVERTER
+        value: default
+      image: gcr.io/pixie-oss/pixie-prod/vizier/pem_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      name: pem
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          memory: 1Gi
+      securityContext:
+        capabilities:
+          add:
+          - SYS_PTRACE
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /host
+        name: host-root
+        readOnly: true
+      - mountPath: /sys
+        name: sys
+        readOnly: true
+      - mountPath: /certs
+        name: certs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-th59f
+        readOnly: true
+    dnsPolicy: ClusterFirstWithHostNet
+    enableServiceLinks: true
+    hostNetwork: true
+    hostPID: true
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - ' set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until [ $(curl
+        -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting
+        for ${URL}" sleep 2; done; '
+      env:
+      - name: SERVICE_NAME
+        value: vizier-query-broker-svc
+      - name: SERVICE_PORT
+        value: "50300"
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: qb-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-th59f
+        readOnly: true
+    nodeName: mm1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
+    - effect: NoExecute
+      operator: Exists
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /
+        type: Directory
+      name: host-root
+    - hostPath:
+        path: /sys
+        type: Directory
+      name: sys
+    - name: certs
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - name: kube-api-access-th59f
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:01Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:02Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:02Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:43Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://531e239d2ad306e5cd466da3b62a784fa9556fb49c26350693c5549d978c95ff
+      image: gcr.io/pixie-oss/pixie-prod/vizier/pem_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/pem_image@sha256:0daba2a5ef9a7a03fa28cd4ad5c66382a2d543dd4bc85d4ef0319a214359f280
+      lastState: {}
+      name: pem
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:55:01Z"
+    hostIP: 192.168.1.10
+    initContainerStatuses:
+    - containerID: docker://79dd65d131dcd25f8a6331875d201b10ee8c38e1efd0a227f4a5e76e6f0f0b06
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: qb-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://79dd65d131dcd25f8a6331875d201b10ee8c38e1efd0a227f4a5e76e6f0f0b06
+          exitCode: 0
+          finishedAt: "2022-11-06T01:55:00Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:44Z"
+    phase: Running
+    podIP: 192.168.1.10
+    podIPs:
+    - ip: 192.168.1.10
+    qosClass: Burstable
+    startTime: "2022-11-06T01:45:43Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      px.dev/metrics_port: "50300"
+      px.dev/metrics_scrape: "true"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generateName: vizier-query-broker-5dccddb65d-
+    labels:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-query-broker
+      plane: control
+      pod-template-hash: 5dccddb65d
+      vizier-name: pixie
+    name: vizier-query-broker-5dccddb65d-f8x7f
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: vizier-query-broker-5dccddb65d
+      uid: 94374b94-a078-4681-b247-7bd716d24f72
+    resourceVersion: "237548"
+    selfLink: /api/v1/namespaces/pl/pods/vizier-query-broker-5dccddb65d-f8x7f
+    uid: fda3c426-d8c9-40e7-9b1d-ef992b826c49
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/os
+              operator: Exists
+            - key: kubernetes.io/os
+              operator: In
+              values:
+              - linux
+          - matchExpressions:
+            - key: beta.kubernetes.io/os
+              operator: Exists
+            - key: beta.kubernetes.io/os
+              operator: In
+              values:
+              - linux
+    containers:
+    - env:
+      - name: PL_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: PL_CLUSTER_ID
+        valueFrom:
+          secretKeyRef:
+            key: cluster-id
+            name: pl-cluster-secrets
+      - name: PL_SENTRY_DSN
+        valueFrom:
+          secretKeyRef:
+            key: sentry-dsn
+            name: pl-cluster-secrets
+            optional: true
+      - name: PL_JWT_SIGNING_KEY
+        valueFrom:
+          secretKeyRef:
+            key: jwt-signing-key
+            name: pl-cluster-secrets
+      - name: PL_POD_IP_ADDRESS
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      - name: PL_POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: PL_CLOUD_ADDR
+        valueFrom:
+          configMapKeyRef:
+            key: PL_CLOUD_ADDR
+            name: pl-cloud-config
+      - name: PL_DATA_ACCESS
+        value: Full
+      envFrom:
+      - configMapRef:
+          name: pl-tls-config
+      image: gcr.io/pixie-oss/pixie-prod/vizier/query_broker_server_image:0.11.8
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /healthz
+          port: 50300
+          scheme: HTTPS
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: app
+      ports:
+      - containerPort: 50300
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /certs
+        name: certs
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2c6t4
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - sh
+      - -c
+      - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/readyz"; until [ $(curl
+        -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting
+        for ${URL}" sleep 2; done; '
+      env:
+      - name: SERVICE_NAME
+        value: vizier-cloud-connector-svc
+      - name: SERVICE_PORT
+        value: "50800"
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: cc-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2c6t4
+        readOnly: true
+    - command:
+      - sh
+      - -c
+      - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until [ $(curl
+        -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo "waiting
+        for ${URL}" sleep 2; done; '
+      env:
+      - name: SERVICE_NAME
+        value: vizier-metadata-svc
+      - name: SERVICE_PORT
+        value: "50400"
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imagePullPolicy: IfNotPresent
+      name: mds-wait
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-2c6t4
+        readOnly: true
+    nodeName: ss1
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: certs
+      secret:
+        defaultMode: 420
+        secretName: service-tls-certs
+    - configMap:
+        defaultMode: 420
+        name: proxy-envoy-config
+      name: envoy-yaml
+    - name: kube-api-access-2c6t4
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:50:45Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:00Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:55:00Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2022-11-06T01:45:43Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://4ff1b19a049d45e53ab8448d50074594290982387384297a375e6259369b262f
+      image: gcr.io/pixie-oss/pixie-prod/vizier/query_broker_server_image:0.11.8
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-prod/vizier/query_broker_server_image@sha256:30d80a3a10da8d31aed813f8575a4a49000a1372601729de01b316b1f475e9f2
+      lastState: {}
+      name: app
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2022-11-06T01:54:59Z"
+    hostIP: 192.168.1.11
+    initContainerStatuses:
+    - containerID: docker://65a67c8741677b2b5078fa0857d2e7dadca143fbc86c219689e84ef7bc23195a
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: cc-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://65a67c8741677b2b5078fa0857d2e7dadca143fbc86c219689e84ef7bc23195a
+          exitCode: 0
+          finishedAt: "2022-11-06T01:48:23Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:45:44Z"
+    - containerID: docker://ffca8b3f2ed9e91dba7f5da4af2541c3544f1f83c6b25f575fdff12c26be9f52
+      image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+      imageID: docker-pullable://gcr.io/pixie-oss/pixie-dev-public/curl@sha256:b57f1d617b3eded350e2f78a5eece0c0839c59f59f1dece39f413f599dc382b1
+      lastState: {}
+      name: mds-wait
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://ffca8b3f2ed9e91dba7f5da4af2541c3544f1f83c6b25f575fdff12c26be9f52
+          exitCode: 0
+          finishedAt: "2022-11-06T01:50:44Z"
+          reason: Completed
+          startedAt: "2022-11-06T01:48:23Z"
+    phase: Running
+    podIP: 172.16.189.83
+    podIPs:
+    - ip: 172.16.189.83
+    qosClass: BestEffort
+    startTime: "2022-11-06T01:45:43Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-name: pixie
+    name: kelvin-service
+    namespace: pl
+    resourceVersion: "235273"
+    selfLink: /api/v1/namespaces/pl/services/kelvin-service
+    uid: dcfd36ee-1c37-42b6-8b2e-101d90283a0c
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: tcp-http2
+      port: 59300
+      protocol: TCP
+      targetPort: 59300
+    selector:
+      app: pl-monitoring
+      component: vizier
+      name: kelvin
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:34Z"
+    labels:
+      app: pl-monitoring
+      etcd_cluster: pl-etcd
+      vizier-name: pixie
+    name: pl-etcd
+    namespace: pl
+    resourceVersion: "235140"
+    selfLink: /api/v1/namespaces/pl/services/pl-etcd
+    uid: 30a91305-9380-48ca-8e84-7843ad85a720
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: client
+      port: 2379
+      protocol: TCP
+      targetPort: 2379
+    - name: peer
+      port: 2380
+      protocol: TCP
+      targetPort: 2380
+    publishNotReadyAddresses: true
+    selector:
+      app: pl-monitoring
+      etcd_cluster: pl-etcd
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:34Z"
+    labels:
+      app: pl-monitoring
+      etcd_cluster: pl-etcd
+      vizier-name: pixie
+    name: pl-etcd-client
+    namespace: pl
+    resourceVersion: "235144"
+    selfLink: /api/v1/namespaces/pl/services/pl-etcd-client
+    uid: 6c21f30a-5dab-4003-afb1-fd8a28d4c0d9
+  spec:
+    clusterIP: 10.110.205.124
+    clusterIPs:
+    - 10.110.205.124
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: etcd-client
+      port: 2379
+      protocol: TCP
+      targetPort: 2379
+    selector:
+      app: pl-monitoring
+      etcd_cluster: pl-etcd
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:25Z"
+    labels:
+      app: pl-monitoring
+      name: pl-nats
+      vizier-name: pixie
+    name: pl-nats
+    namespace: pl
+    resourceVersion: "235097"
+    selfLink: /api/v1/namespaces/pl/services/pl-nats
+    uid: 62f99aac-484a-4706-8e17-d373b8a2b216
+  spec:
+    clusterIP: 10.98.112.102
+    clusterIPs:
+    - 10.98.112.102
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: client
+      port: 4222
+      protocol: TCP
+      targetPort: 4222
+    selector:
+      app: pl-monitoring
+      name: pl-nats
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:25Z"
+    labels:
+      app: pl-monitoring
+      name: pl-nats
+      vizier-name: pixie
+    name: pl-nats-mgmt
+    namespace: pl
+    resourceVersion: "235098"
+    selfLink: /api/v1/namespaces/pl/services/pl-nats-mgmt
+    uid: ce85ff04-1e2c-45d1-a040-a932fddd2ffe
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: cluster
+      port: 6222
+      protocol: TCP
+      targetPort: 6222
+    - name: monitor
+      port: 8222
+      protocol: TCP
+      targetPort: 8222
+    - name: metrics
+      port: 7777
+      protocol: TCP
+      targetPort: 7777
+    - name: leafnodes
+      port: 7422
+      protocol: TCP
+      targetPort: 7422
+    - name: gateways
+      port: 7522
+      protocol: TCP
+      targetPort: 7522
+    selector:
+      app: pl-monitoring
+      name: pl-nats
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-bootstrap: "true"
+      vizier-name: pixie
+    name: vizier-cloud-connector-svc
+    namespace: pl
+    resourceVersion: "235277"
+    selfLink: /api/v1/namespaces/pl/services/vizier-cloud-connector-svc
+    uid: c7d2fdb8-58f6-45ad-b216-c0d5d1d083e6
+  spec:
+    clusterIP: 10.99.37.116
+    clusterIPs:
+    - 10.99.37.116
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: tcp-http2
+      port: 50800
+      protocol: TCP
+      targetPort: 50800
+    selector:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-cloud-connector
+      vizier-bootstrap: "true"
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-name: pixie
+    name: vizier-metadata-svc
+    namespace: pl
+    resourceVersion: "235281"
+    selfLink: /api/v1/namespaces/pl/services/vizier-metadata-svc
+    uid: dbe890c5-e3fa-4e3e-bcb0-f9e2873ce9a2
+  spec:
+    clusterIP: 10.101.45.0
+    clusterIPs:
+    - 10.101.45.0
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: tcp-http2
+      port: 50400
+      protocol: TCP
+      targetPort: 50400
+    selector:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-metadata
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-name: pixie
+    name: vizier-query-broker-svc
+    namespace: pl
+    resourceVersion: "235286"
+    selfLink: /api/v1/namespaces/pl/services/vizier-query-broker-svc
+    uid: ea6dbd3d-6c75-4c18-93ac-74f0cdcf12bb
+  spec:
+    clusterIP: 10.111.17.221
+    clusterIPs:
+    - 10.111.17.221
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: tcp-http2
+      port: 50300
+      protocol: TCP
+      targetPort: 50300
+    - name: tcp-grpc-web
+      port: 50305
+      protocol: TCP
+      targetPort: 50305
+    selector:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-query-broker
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-name: pixie
+    name: vizier-pem
+    namespace: pl
+    resourceVersion: "237952"
+    selfLink: /apis/apps/v1/namespaces/pl/daemonsets/vizier-pem
+    uid: bcfbda18-2bf7-45b5-95bf-b750e591a415
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: vizier-pem
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: vizier-pem
+          plane: data
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_PEM_ENV_VAR_PLACEHOLDER
+            value: "true"
+          - name: PL_PROFILER_JAVA_SYMBOLS
+            value: "true"
+          - name: PL_TABLE_STORE_DATA_LIMIT_MB
+            value: "614"
+          - name: TCMALLOC_SAMPLE_PARAMETER
+            value: "1048576"
+          - name: PL_CLIENT_TLS_CERT
+            value: /certs/client.crt
+          - name: PL_CLIENT_TLS_KEY
+            value: /certs/client.key
+          - name: PL_TLS_CA_CERT
+            value: /certs/ca.crt
+          - name: PL_DISABLE_SSL
+            value: "false"
+          - name: PL_HOST_PATH
+            value: /host
+          - name: PL_POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: PL_HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_VIZIER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_VIZIER_NAME
+            valueFrom:
+              secretKeyRef:
+                key: cluster-name
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_CLOCK_CONVERTER
+            value: default
+          image: gcr.io/pixie-oss/pixie-prod/vizier/pem_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          name: pem
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 1Gi
+          securityContext:
+            capabilities:
+              add:
+              - SYS_PTRACE
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /host
+            name: host-root
+            readOnly: true
+          - mountPath: /sys
+            name: sys
+            readOnly: true
+          - mountPath: /certs
+            name: certs
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        hostPID: true
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - ' set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until
+            [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-query-broker-svc
+          - name: SERVICE_PORT
+            value: "50300"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: qb-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 10
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+        - effect: NoExecute
+          operator: Exists
+        - effect: NoSchedule
+          operator: Exists
+        volumes:
+        - hostPath:
+            path: /
+            type: Directory
+          name: host-root
+        - hostPath:
+            path: /sys
+            type: Directory
+          name: sys
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 20
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 3
+    desiredNumberScheduled: 3
+    numberAvailable: 3
+    numberMisscheduled: 0
+    numberReady: 3
+    observedGeneration: 1
+    updatedNumberScheduled: 3
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 2
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-name: pixie
+    name: kelvin
+    namespace: pl
+    resourceVersion: "237677"
+    selfLink: /apis/apps/v1/namespaces/pl/deployments/kelvin
+    uid: 2a084b3f-583f-4361-a03f-6d8417b8a94b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: kelvin
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: kelvin
+          plane: data
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_HOST_PATH
+            value: /host
+          - name: PL_POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: PL_CLUSTER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+          - name: PL_SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                key: sentry-dsn
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          - name: PL_HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_VIZIER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_VIZIER_NAME
+            valueFrom:
+              secretKeyRef:
+                key: cluster-name
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: TCMALLOC_SAMPLE_PARAMETER
+            value: "1048576"
+          envFrom:
+          - configMapRef:
+              name: pl-tls-config
+          image: gcr.io/pixie-oss/pixie-prod/vizier/kelvin_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          name: app
+          ports:
+          - containerPort: 59300
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+          - mountPath: /sys
+            name: sys
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/readyz"; until [
+            $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-cloud-connector-svc
+          - name: SERVICE_PORT
+            value: "50800"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: cc-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until
+            [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-query-broker-svc
+          - name: SERVICE_PORT
+            value: "50300"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: qb-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+        - hostPath:
+            path: /sys
+            type: Directory
+          name: sys
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-11-06T01:55:26Z"
+      lastUpdateTime: "2022-11-06T01:55:26Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-11-06T01:45:43Z"
+      lastUpdateTime: "2022-11-06T01:55:26Z"
+      message: ReplicaSet "kelvin-5c46b6b95f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 2
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-bootstrap: "true"
+      vizier-name: pixie
+    name: vizier-cloud-connector
+    namespace: pl
+    resourceVersion: "236006"
+    selfLink: /apis/apps/v1/namespaces/pl/deployments/vizier-cloud-connector
+    uid: 2b302c14-8878-467b-8a62-44f68dedad17
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: vizier-cloud-connector
+        vizier-bootstrap: "true"
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: vizier-cloud-connector
+          plane: control
+          vizier-bootstrap: "true"
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_CLUSTER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_VIZIER_NAME
+            valueFrom:
+              secretKeyRef:
+                key: cluster-name
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_DEPLOY_KEY
+            valueFrom:
+              secretKeyRef:
+                key: deploy-key
+                name: pl-deploy-secrets
+                optional: true
+          - name: PL_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: PL_MAX_EXPECTED_CLOCK_SKEW
+            value: "2000"
+          - name: PL_RENEW_PERIOD
+            value: "7500"
+          envFrom:
+          - configMapRef:
+              name: pl-cloud-config
+          - configMapRef:
+              name: pl-cloud-connector-tls-config
+          - configMapRef:
+              name: pl-cluster-config
+              optional: true
+          image: gcr.io/pixie-oss/pixie-prod/vizier/cloud_connector_server_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 50800
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: app
+          ports:
+          - containerPort: 50800
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - set -xe; URL="${PROTOCOL}://${SERVICE_NAME}:${SERVICE_PORT}${HEALTH_PATH}";
+            until [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq
+            200 ]; do echo "waiting for ${URL}"; sleep 2; done;
+          env:
+          - name: SERVICE_NAME
+            value: pl-nats-mgmt
+          - name: SERVICE_PORT
+            value: "8222"
+          - name: HEALTH_PATH
+          - name: PROTOCOL
+            value: http
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: nats-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: cloud-conn-service-account
+        serviceAccountName: cloud-conn-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-11-06T01:48:22Z"
+      lastUpdateTime: "2022-11-06T01:48:22Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-11-06T01:45:43Z"
+      lastUpdateTime: "2022-11-06T01:48:22Z"
+      message: ReplicaSet "vizier-cloud-connector-7bdb8d68c6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 2
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-name: pixie
+    name: vizier-metadata
+    namespace: pl
+    resourceVersion: "236523"
+    selfLink: /apis/apps/v1/namespaces/pl/deployments/vizier-metadata
+    uid: fbf03a65-8938-4bf3-aab1-94c6a7b0e8f3
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: vizier-metadata
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          px.dev/metrics_port: "50400"
+          px.dev/metrics_scrape: "true"
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: vizier-metadata
+          plane: control
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: PL_MAX_EXPECTED_CLOCK_SKEW
+            value: "2000"
+          - name: PL_RENEW_PERIOD
+            value: "7500"
+          envFrom:
+          - configMapRef:
+              name: pl-tls-config
+          - configMapRef:
+              name: pl-cluster-config
+              optional: true
+          image: gcr.io/pixie-oss/pixie-prod/vizier/metadata_server_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 50400
+              scheme: HTTPS
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: app
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /healthz
+              port: 50400
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - set -xe; URL="${PROTOCOL}://${SERVICE_NAME}:${SERVICE_PORT}${HEALTH_PATH}";
+            until [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq
+            200 ]; do echo "waiting for ${URL}"; sleep 2; done;
+          env:
+          - name: SERVICE_NAME
+            value: pl-nats-mgmt
+          - name: SERVICE_PORT
+            value: "8222"
+          - name: HEALTH_PATH
+          - name: PROTOCOL
+            value: http
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: nats-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - set -xe; ETCD_PATH="${PL_MD_ETCD_SERVER}"; if [ ! ${ETCD_PATH} ]; then
+            ETCD_PATH="${DEFAULT_ETCD_PATH}"; fi; URL="${ETCD_PATH}${HEALTH_PATH}";
+            until [ $(curl --cacert /certs/ca.crt --key /certs/client.key --cert /certs/client.crt
+            -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo
+            "waiting for ${URL}"; sleep 2; done;
+          env:
+          - name: HEALTH_PATH
+            value: /health
+          - name: DEFAULT_ETCD_PATH
+            value: https://pl-etcd-client.pl.svc:2379
+          envFrom:
+          - configMapRef:
+              name: pl-cluster-config
+              optional: true
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: etcd-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: metadata-service-account
+        serviceAccountName: metadata-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-11-06T01:50:43Z"
+      lastUpdateTime: "2022-11-06T01:50:43Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-11-06T01:45:43Z"
+      lastUpdateTime: "2022-11-06T01:50:43Z"
+      message: ReplicaSet "vizier-metadata-fb996d85d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 2
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-name: pixie
+    name: vizier-query-broker
+    namespace: pl
+    resourceVersion: "237552"
+    selfLink: /apis/apps/v1/namespaces/pl/deployments/vizier-query-broker
+    uid: 11024b97-6c11-415e-ab5b-e660565af770
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: vizier-query-broker
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          px.dev/metrics_port: "50300"
+          px.dev/metrics_scrape: "true"
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: vizier-query-broker
+          plane: control
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: PL_CLUSTER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+          - name: PL_SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                key: sentry-dsn
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_POD_IP_ADDRESS
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          - name: PL_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: PL_CLOUD_ADDR
+            valueFrom:
+              configMapKeyRef:
+                key: PL_CLOUD_ADDR
+                name: pl-cloud-config
+          - name: PL_DATA_ACCESS
+            value: Full
+          envFrom:
+          - configMapRef:
+              name: pl-tls-config
+          image: gcr.io/pixie-oss/pixie-prod/vizier/query_broker_server_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 50300
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: app
+          ports:
+          - containerPort: 50300
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/readyz"; until [
+            $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-cloud-connector-svc
+          - name: SERVICE_PORT
+            value: "50800"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: cc-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until
+            [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-metadata-svc
+          - name: SERVICE_PORT
+            value: "50400"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: mds-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+        - configMap:
+            defaultMode: 420
+            name: proxy-envoy-config
+          name: envoy-yaml
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-11-06T01:55:00Z"
+      lastUpdateTime: "2022-11-06T01:55:00Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-11-06T01:45:43Z"
+      lastUpdateTime: "2022-11-06T01:55:00Z"
+      message: ReplicaSet "vizier-query-broker-5dccddb65d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      component: vizier
+      name: kelvin
+      plane: data
+      pod-template-hash: 5c46b6b95f
+      vizier-name: pixie
+    name: kelvin-5c46b6b95f
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: kelvin
+      uid: 2a084b3f-583f-4361-a03f-6d8417b8a94b
+    resourceVersion: "237676"
+    selfLink: /apis/apps/v1/namespaces/pl/replicasets/kelvin-5c46b6b95f
+    uid: 9eb5f61d-31bd-4d37-b832-ae3d51ddb841
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: kelvin
+        pod-template-hash: 5c46b6b95f
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: kelvin
+          plane: data
+          pod-template-hash: 5c46b6b95f
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_HOST_PATH
+            value: /host
+          - name: PL_POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: PL_CLUSTER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+          - name: PL_SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                key: sentry-dsn
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          - name: PL_HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_VIZIER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_VIZIER_NAME
+            valueFrom:
+              secretKeyRef:
+                key: cluster-name
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: TCMALLOC_SAMPLE_PARAMETER
+            value: "1048576"
+          envFrom:
+          - configMapRef:
+              name: pl-tls-config
+          image: gcr.io/pixie-oss/pixie-prod/vizier/kelvin_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          name: app
+          ports:
+          - containerPort: 59300
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+          - mountPath: /sys
+            name: sys
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/readyz"; until [
+            $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-cloud-connector-svc
+          - name: SERVICE_PORT
+            value: "50800"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: cc-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until
+            [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-query-broker-svc
+          - name: SERVICE_PORT
+            value: "50300"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: qb-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+        - hostPath:
+            path: /sys
+            type: Directory
+          name: sys
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-cloud-connector
+      plane: control
+      pod-template-hash: 7bdb8d68c6
+      vizier-bootstrap: "true"
+      vizier-name: pixie
+    name: vizier-cloud-connector-7bdb8d68c6
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: vizier-cloud-connector
+      uid: 2b302c14-8878-467b-8a62-44f68dedad17
+    resourceVersion: "235971"
+    selfLink: /apis/apps/v1/namespaces/pl/replicasets/vizier-cloud-connector-7bdb8d68c6
+    uid: 29a70e77-8fb0-459a-af71-5611af5d6932
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: vizier-cloud-connector
+        pod-template-hash: 7bdb8d68c6
+        vizier-bootstrap: "true"
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: vizier-cloud-connector
+          plane: control
+          pod-template-hash: 7bdb8d68c6
+          vizier-bootstrap: "true"
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_CLUSTER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_VIZIER_NAME
+            valueFrom:
+              secretKeyRef:
+                key: cluster-name
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_DEPLOY_KEY
+            valueFrom:
+              secretKeyRef:
+                key: deploy-key
+                name: pl-deploy-secrets
+                optional: true
+          - name: PL_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: PL_MAX_EXPECTED_CLOCK_SKEW
+            value: "2000"
+          - name: PL_RENEW_PERIOD
+            value: "7500"
+          envFrom:
+          - configMapRef:
+              name: pl-cloud-config
+          - configMapRef:
+              name: pl-cloud-connector-tls-config
+          - configMapRef:
+              name: pl-cluster-config
+              optional: true
+          image: gcr.io/pixie-oss/pixie-prod/vizier/cloud_connector_server_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 50800
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: app
+          ports:
+          - containerPort: 50800
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - set -xe; URL="${PROTOCOL}://${SERVICE_NAME}:${SERVICE_PORT}${HEALTH_PATH}";
+            until [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq
+            200 ]; do echo "waiting for ${URL}"; sleep 2; done;
+          env:
+          - name: SERVICE_NAME
+            value: pl-nats-mgmt
+          - name: SERVICE_PORT
+            value: "8222"
+          - name: HEALTH_PATH
+          - name: PROTOCOL
+            value: http
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: nats-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: cloud-conn-service-account
+        serviceAccountName: cloud-conn-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-metadata
+      plane: control
+      pod-template-hash: fb996d85d
+      vizier-name: pixie
+    name: vizier-metadata-fb996d85d
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: vizier-metadata
+      uid: fbf03a65-8938-4bf3-aab1-94c6a7b0e8f3
+    resourceVersion: "236522"
+    selfLink: /apis/apps/v1/namespaces/pl/replicasets/vizier-metadata-fb996d85d
+    uid: 581b74de-56d5-41c8-9068-7606307d05a8
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: vizier-metadata
+        pod-template-hash: fb996d85d
+    template:
+      metadata:
+        annotations:
+          px.dev/metrics_port: "50400"
+          px.dev/metrics_scrape: "true"
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: vizier-metadata
+          plane: control
+          pod-template-hash: fb996d85d
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: PL_MAX_EXPECTED_CLOCK_SKEW
+            value: "2000"
+          - name: PL_RENEW_PERIOD
+            value: "7500"
+          envFrom:
+          - configMapRef:
+              name: pl-tls-config
+          - configMapRef:
+              name: pl-cluster-config
+              optional: true
+          image: gcr.io/pixie-oss/pixie-prod/vizier/metadata_server_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 50400
+              scheme: HTTPS
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: app
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /healthz
+              port: 50400
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - set -xe; URL="${PROTOCOL}://${SERVICE_NAME}:${SERVICE_PORT}${HEALTH_PATH}";
+            until [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq
+            200 ]; do echo "waiting for ${URL}"; sleep 2; done;
+          env:
+          - name: SERVICE_NAME
+            value: pl-nats-mgmt
+          - name: SERVICE_PORT
+            value: "8222"
+          - name: HEALTH_PATH
+          - name: PROTOCOL
+            value: http
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: nats-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - set -xe; ETCD_PATH="${PL_MD_ETCD_SERVER}"; if [ ! ${ETCD_PATH} ]; then
+            ETCD_PATH="${DEFAULT_ETCD_PATH}"; fi; URL="${ETCD_PATH}${HEALTH_PATH}";
+            until [ $(curl --cacert /certs/ca.crt --key /certs/client.key --cert /certs/client.crt
+            -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ]; do echo
+            "waiting for ${URL}"; sleep 2; done;
+          env:
+          - name: HEALTH_PATH
+            value: /health
+          - name: DEFAULT_ETCD_PATH
+            value: https://pl-etcd-client.pl.svc:2379
+          envFrom:
+          - configMapRef:
+              name: pl-cluster-config
+              optional: true
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: etcd-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: metadata-service-account
+        serviceAccountName: metadata-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:43Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      component: vizier
+      name: vizier-query-broker
+      plane: control
+      pod-template-hash: 5dccddb65d
+      vizier-name: pixie
+    name: vizier-query-broker-5dccddb65d
+    namespace: pl
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: vizier-query-broker
+      uid: 11024b97-6c11-415e-ab5b-e660565af770
+    resourceVersion: "237551"
+    selfLink: /apis/apps/v1/namespaces/pl/replicasets/vizier-query-broker-5dccddb65d
+    uid: 94374b94-a078-4681-b247-7bd716d24f72
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        component: vizier
+        name: vizier-query-broker
+        pod-template-hash: 5dccddb65d
+    template:
+      metadata:
+        annotations:
+          px.dev/metrics_port: "50300"
+          px.dev/metrics_scrape: "true"
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          name: vizier-query-broker
+          plane: control
+          pod-template-hash: 5dccddb65d
+          vizier-name: pixie
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: Exists
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+              - matchExpressions:
+                - key: beta.kubernetes.io/os
+                  operator: Exists
+                - key: beta.kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+        containers:
+        - env:
+          - name: PL_POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: PL_CLUSTER_ID
+            valueFrom:
+              secretKeyRef:
+                key: cluster-id
+                name: pl-cluster-secrets
+          - name: PL_SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                key: sentry-dsn
+                name: pl-cluster-secrets
+                optional: true
+          - name: PL_JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: pl-cluster-secrets
+          - name: PL_POD_IP_ADDRESS
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          - name: PL_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: PL_CLOUD_ADDR
+            valueFrom:
+              configMapKeyRef:
+                key: PL_CLOUD_ADDR
+                name: pl-cloud-config
+          - name: PL_DATA_ACCESS
+            value: Full
+          envFrom:
+          - configMapRef:
+              name: pl-tls-config
+          image: gcr.io/pixie-oss/pixie-prod/vizier/query_broker_server_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 50300
+              scheme: HTTPS
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: app
+          ports:
+          - containerPort: 50300
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: certs
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/readyz"; until [
+            $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-cloud-connector-svc
+          - name: SERVICE_PORT
+            value: "50800"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: cc-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - command:
+          - sh
+          - -c
+          - 'set -x; URL="https://${SERVICE_NAME}:${SERVICE_PORT}/healthz"; until
+            [ $(curl -m 0.5 -s -o /dev/null -w "%{http_code}" -k ${URL}) -eq 200 ];
+            do echo "waiting for ${URL}" sleep 2; done; '
+          env:
+          - name: SERVICE_NAME
+            value: vizier-metadata-svc
+          - name: SERVICE_PORT
+            value: "50400"
+          image: gcr.io/pixie-oss/pixie-dev-public/curl:1.0
+          imagePullPolicy: IfNotPresent
+          name: mds-wait
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+        - configMap:
+            defaultMode: 420
+            name: proxy-envoy-config
+          name: envoy-yaml
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:34Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      etcd_cluster: pl-etcd
+      vizier-name: pixie
+    name: pl-etcd
+    namespace: pl
+    resourceVersion: "235849"
+    selfLink: /apis/apps/v1/namespaces/pl/statefulsets/pl-etcd
+    uid: 524ff769-f303-43bc-8f1e-0593f1e31654
+  spec:
+    podManagementPolicy: Parallel
+    replicas: 3
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        etcd_cluster: pl-etcd
+    serviceName: pl-etcd
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          etcd_cluster: pl-etcd
+          plane: control
+          vizier-name: pixie
+        name: pl-etcd
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -ec
+          - |
+            HOSTNAME=$(hostname)
+
+            eps() {
+              EPS=""
+              for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+                EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+              done
+              echo ${EPS}
+            }
+
+            member_hash() {
+              etcdctl \
+                  --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                  --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                  --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                  --endpoints=$(eps) \
+                  member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+            }
+
+            num_existing() {
+              etcdctl \
+                  --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                  --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                  --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                  --endpoints=$(eps) \
+                  member list | wc -l
+            }
+
+            initial_peers() {
+              PEERS=""
+              for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+                PEERS="${PEERS}${PEERS:+,}${CLUSTER_NAME}-${i}=https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380"
+              done
+              echo ${PEERS}
+            }
+
+            MEMBER_HASH=$(member_hash)
+            EXISTING=$(num_existing)
+
+            # Re-joining after failure?
+            if [ -n "${MEMBER_HASH}" ]; then
+              echo "Re-joining member ${HOSTNAME}"
+
+              etcdctl \
+                  --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                  --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                  --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                  --endpoints=$(eps) \
+                  member remove ${MEMBER_HASH}
+
+              rm -rf /var/run/etcd/*
+              mkdir -p /var/run/etcd/
+            fi
+
+            if [ ${EXISTING} -gt 0 ]; then
+              while true; do
+                echo "Waiting for ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+                ping -W 1 -c 1 ${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+                sleep 1s
+              done
+
+              etcdctl \
+                  --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                  --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                  --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                  --endpoints=$(eps) \
+                  member add ${HOSTNAME} --peer-urls=https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | grep "^ETCD_" > /var/run/etcd/new_member_envs
+
+              if [ $? -ne 0 ]; then
+                echo "Member add ${HOSTNAME} error"
+                rm -f /var/run/etcd/new_member_envs
+                exit 1
+              fi
+
+              cat /var/run/etcd/new_member_envs
+              . /var/run/etcd/new_member_envs
+
+              exec etcd --name ${HOSTNAME} \
+                  --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+                  --listen-peer-urls https://0.0.0.0:2380 \
+                  --listen-client-urls https://0.0.0.0:2379 \
+                  --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+                  --data-dir /var/run/etcd/default.etcd \
+                  --initial-cluster ${ETCD_INITIAL_CLUSTER} \
+                  --initial-cluster-state ${ETCD_INITIAL_CLUSTER_STATE} \
+                  --peer-client-cert-auth=true \
+                  --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+                  --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+                  --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+                  --client-cert-auth=true \
+                  --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+                  --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+                  --key-file=/etc/etcdtls/member/server-tls/server.key
+                  --max-request-bytes 2000000 \
+                  --max-wals 1 \
+                  --max-snapshots 1 \
+                  --quota-backend-bytes 8589934592 \
+                  --snapshot-count 5000
+            fi
+
+            for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+              while true; do
+                echo "Waiting for ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} to come up"
+                ping -W 1 -c 1 ${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE} > /dev/null && break
+                sleep 1s
+              done
+            done
+
+            echo "Joining member ${HOSTNAME}"
+            exec etcd --name ${HOSTNAME} \
+                --initial-advertise-peer-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 \
+                --listen-peer-urls https://0.0.0.0:2380 \
+                --listen-client-urls https://0.0.0.0:2379 \
+                --advertise-client-urls https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379 \
+                --initial-cluster-token pl-etcd-cluster-1 \
+                --data-dir /var/run/etcd/default.etcd \
+                --initial-cluster $(initial_peers) \
+                --initial-cluster-state new \
+                --peer-client-cert-auth=true \
+                --peer-trusted-ca-file=/etc/etcdtls/member/peer-tls/peer-ca.crt \
+                --peer-cert-file=/etc/etcdtls/member/peer-tls/peer.crt \
+                --peer-key-file=/etc/etcdtls/member/peer-tls/peer.key \
+                --client-cert-auth=true \
+                --trusted-ca-file=/etc/etcdtls/member/server-tls/server-ca.crt \
+                --cert-file=/etc/etcdtls/member/server-tls/server.crt \
+                --key-file=/etc/etcdtls/member/server-tls/server.key
+                --max-request-bytes 2000000 \
+                --max-wals 1 \
+                --max-snapshots 1 \
+                --quota-backend-bytes 8589934592 \
+                --snapshot-count 5000
+          env:
+          - name: INITIAL_CLUSTER_SIZE
+            value: "3"
+          - name: CLUSTER_NAME
+            value: pl-etcd
+          - name: ETCDCTL_API
+            value: "3"
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: ETCD_AUTO_COMPACTION_RETENTION
+            value: "5"
+          - name: ETCD_AUTO_COMPACTION_MODE
+            value: revision
+          image: quay.io/coreos/etcd:v3.4.3
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -ec
+                - |
+                  HOSTNAME=$(hostname)
+
+                  member_hash() {
+                    etcdctl \
+                        --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                        --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                        --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                        --endpoints=$(eps) \
+                        member list | grep https://${HOSTNAME}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2380 | cut -d',' -f1
+                  }
+
+                  eps() {
+                    EPS=""
+                    for i in $(seq 0 $((${INITIAL_CLUSTER_SIZE} - 1))); do
+                      EPS="${EPS}${EPS:+,}https://${CLUSTER_NAME}-${i}.${CLUSTER_NAME}.${POD_NAMESPACE}.svc:2379"
+                    done
+                    echo ${EPS}
+                  }
+
+                  MEMBER_HASH=$(member_hash)
+
+                  # Removing member from cluster
+                  if [ -n "${MEMBER_HASH}" ]; then
+                    echo "Removing ${HOSTNAME} from etcd cluster"
+                    etcdctl \
+                        --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt \
+                        --key=/etc/etcdtls/client/etcd-tls/etcd-client.key \
+                        --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt \
+                        --endpoints=$(eps) \
+                        member remove $(member_hash)
+                    if [ $? -eq 0 ]; then
+                      # Remove everything otherwise the cluster will no longer scale-up
+                      rm -rf /var/run/etcd/*
+                    fi
+                  fi
+          name: etcd
+          ports:
+          - containerPort: 2379
+            name: client
+            protocol: TCP
+          - containerPort: 2380
+            name: server
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -ec
+              - etcdctl --endpoints=https://localhost:2379 --cert=/etc/etcdtls/client/etcd-tls/etcd-client.crt
+                --key=/etc/etcdtls/client/etcd-tls/etcd-client.key --cacert=/etc/etcdtls/client/etcd-tls/etcd-client-ca.crt
+                endpoint status
+            failureThreshold: 3
+            initialDelaySeconds: 1
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/run/etcd
+            name: etcd-data
+          - mountPath: /etc/etcdtls/member/peer-tls
+            name: member-peer-tls
+          - mountPath: /etc/etcdtls/member/server-tls
+            name: member-server-tls
+          - mountPath: /etc/etcdtls/client/etcd-tls
+            name: etcd-client-tls
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: member-peer-tls
+          secret:
+            defaultMode: 420
+            secretName: etcd-peer-tls-certs
+        - name: member-server-tls
+          secret:
+            defaultMode: 420
+            secretName: etcd-server-tls-certs
+        - name: etcd-client-tls
+          secret:
+            defaultMode: 420
+            secretName: etcd-client-tls-certs
+        - emptyDir: {}
+          name: etcd-data
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+  status:
+    availableReplicas: 3
+    collisionCount: 0
+    currentReplicas: 3
+    currentRevision: pl-etcd-777dbbd499
+    observedGeneration: 1
+    readyReplicas: 3
+    replicas: 3
+    updateRevision: pl-etcd-777dbbd499
+    updatedReplicas: 3
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:45:25Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      name: pl-nats
+      vizier-name: pixie
+    name: pl-nats
+    namespace: pl
+    resourceVersion: "235931"
+    selfLink: /apis/apps/v1/namespaces/pl/statefulsets/pl-nats
+    uid: 53481296-f3de-4e9a-9c43-e0c9d8fa703e
+  spec:
+    podManagementPolicy: OrderedReady
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: pl-monitoring
+        name: pl-nats
+    serviceName: pl-nats
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          name: pl-nats
+          plane: control
+          vizier-name: pixie
+      spec:
+        containers:
+        - command:
+          - nats-server
+          - --config
+          - /etc/nats-config/nats.conf
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: CLUSTER_ADVERTISE
+            value: $(POD_NAME).pl-nats.$(POD_NAMESPACE).svc
+          image: gcr.io/pixie-oss/pixie-prod/vizier-deps/nats:2.8.4-alpine3.15
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - /nats-server -sl=ldm=/var/run/nats/nats.pid && /bin/sleep 60
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8222
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: pl-nats
+          ports:
+          - containerPort: 4222
+            name: client
+            protocol: TCP
+          - containerPort: 7422
+            name: leafnodes
+            protocol: TCP
+          - containerPort: 6222
+            name: cluster
+            protocol: TCP
+          - containerPort: 8222
+            name: monitor
+            protocol: TCP
+          - containerPort: 7777
+            name: metrics
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8222
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/nats-config
+            name: config-volume
+          - mountPath: /etc/nats-server-tls-certs
+            name: nats-server-tls-volume
+          - mountPath: /var/run/nats
+            name: pid
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        shareProcessNamespace: true
+        terminationGracePeriodSeconds: 60
+        volumes:
+        - name: nats-server-tls-volume
+          secret:
+            defaultMode: 420
+            secretName: service-tls-certs
+        - configMap:
+            defaultMode: 420
+            name: nats-config
+          name: config-volume
+        - emptyDir: {}
+          name: pid
+    updateStrategy:
+      rollingUpdate:
+        partition: 0
+      type: RollingUpdate
+  status:
+    availableReplicas: 1
+    collisionCount: 0
+    currentReplicas: 1
+    currentRevision: pl-nats-856f765774
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updateRevision: pl-nats-856f765774
+    updatedReplicas: 1
+- apiVersion: batch/v1
+  kind: Job
+  metadata:
+    annotations:
+      vizier-name: pixie
+    creationTimestamp: "2022-11-06T01:48:24Z"
+    generation: 1
+    labels:
+      app: pl-monitoring
+      component: vizier
+      vizier-bootstrap: "true"
+      vizier-name: pixie
+    name: cert-provisioner-job
+    namespace: pl
+    resourceVersion: "236042"
+    selfLink: /apis/batch/v1/namespaces/pl/jobs/cert-provisioner-job
+    uid: 08599a46-e948-4079-8984-a674ede35b3a
+  spec:
+    backoffLimit: 1
+    completionMode: NonIndexed
+    completions: 1
+    parallelism: 1
+    selector:
+      matchLabels:
+        controller-uid: 08599a46-e948-4079-8984-a674ede35b3a
+    suspend: false
+    template:
+      metadata:
+        annotations:
+          vizier-name: pixie
+        creationTimestamp: null
+        labels:
+          app: pl-monitoring
+          component: vizier
+          controller-uid: 08599a46-e948-4079-8984-a674ede35b3a
+          job-name: cert-provisioner-job
+          vizier-bootstrap: "true"
+          vizier-name: pixie
+        name: cert-provisioner-job
+      spec:
+        containers:
+        - env:
+          - name: PL_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          envFrom:
+          - configMapRef:
+              name: pl-cloud-config
+          - configMapRef:
+              name: pl-cluster-config
+              optional: true
+          image: gcr.io/pixie-oss/pixie-prod/vizier/cert_provisioner_image:0.11.8
+          imagePullPolicy: IfNotPresent
+          name: provisioner
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Never
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: updater-service-account
+        serviceAccountName: updater-service-account
+        terminationGracePeriodSeconds: 30
+  status:
+    completionTime: "2022-11-06T01:48:27Z"
+    conditions:
+    - lastProbeTime: "2022-11-06T01:48:27Z"
+      lastTransitionTime: "2022-11-06T01:48:27Z"
+      status: "True"
+      type: Complete
+    startTime: "2022-11-06T01:48:24Z"
+    succeeded: 1
+kind: List
+metadata:
+  resourceVersion: ""

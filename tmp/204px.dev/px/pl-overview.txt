@@ -1,0 +1,45 @@
+NAME                                          READY   STATUS      RESTARTS      AGE
+pod/cert-provisioner-job-nvr9g                0/1     Completed   0             41m
+pod/kelvin-5c46b6b95f-9bdlb                   1/1     Running     0             43m
+pod/pl-etcd-0                                 1/1     Running     0             43m
+pod/pl-etcd-1                                 1/1     Running     3 (42m ago)   43m
+pod/pl-etcd-2                                 1/1     Running     0             43m
+pod/pl-nats-0                                 1/1     Running     0             44m
+pod/vizier-cloud-connector-7bdb8d68c6-n62dj   1/1     Running     0             43m
+pod/vizier-metadata-fb996d85d-4jrml           1/1     Running     0             43m
+pod/vizier-pem-86lhk                          1/1     Running     0             43m
+pod/vizier-pem-d56dj                          1/1     Running     0             43m
+pod/vizier-pem-zp7qr                          1/1     Running     0             43m
+pod/vizier-query-broker-5dccddb65d-f8x7f      1/1     Running     0             43m
+
+NAME                                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                        AGE
+service/kelvin-service               ClusterIP   None             <none>        59300/TCP                                      43m
+service/pl-etcd                      ClusterIP   None             <none>        2379/TCP,2380/TCP                              43m
+service/pl-etcd-client               ClusterIP   10.110.205.124   <none>        2379/TCP                                       43m
+service/pl-nats                      ClusterIP   10.98.112.102    <none>        4222/TCP                                       44m
+service/pl-nats-mgmt                 ClusterIP   None             <none>        6222/TCP,8222/TCP,7777/TCP,7422/TCP,7522/TCP   44m
+service/vizier-cloud-connector-svc   ClusterIP   10.99.37.116     <none>        50800/TCP                                      43m
+service/vizier-metadata-svc          ClusterIP   10.101.45.0      <none>        50400/TCP                                      43m
+service/vizier-query-broker-svc      ClusterIP   10.111.17.221    <none>        50300/TCP,50305/TCP                            43m
+
+NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/vizier-pem   3         3         3       3            3           <none>          43m
+
+NAME                                     READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/kelvin                   1/1     1            1           43m
+deployment.apps/vizier-cloud-connector   1/1     1            1           43m
+deployment.apps/vizier-metadata          1/1     1            1           43m
+deployment.apps/vizier-query-broker      1/1     1            1           43m
+
+NAME                                                DESIRED   CURRENT   READY   AGE
+replicaset.apps/kelvin-5c46b6b95f                   1         1         1       43m
+replicaset.apps/vizier-cloud-connector-7bdb8d68c6   1         1         1       43m
+replicaset.apps/vizier-metadata-fb996d85d           1         1         1       43m
+replicaset.apps/vizier-query-broker-5dccddb65d      1         1         1       43m
+
+NAME                       READY   AGE
+statefulset.apps/pl-etcd   3/3     43m
+statefulset.apps/pl-nats   1/1     44m
+
+NAME                             COMPLETIONS   DURATION   AGE
+job.batch/cert-provisioner-job   1/1           3s         41m

@@ -1,0 +1,11 @@
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/catalog-operator-8dc86744b-k9g7r   1/1     Running   0          22m
+pod/olm-operator-6d88f56b99-mttt9      1/1     Running   0          22m
+
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/catalog-operator   1/1     1            1           22m
+deployment.apps/olm-operator       1/1     1            1           22m
+
+NAME                                         DESIRED   CURRENT   READY   AGE
+replicaset.apps/catalog-operator-8dc86744b   1         1         1       22m
+replicaset.apps/olm-operator-6d88f56b99      1         1         1       22m

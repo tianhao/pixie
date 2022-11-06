@@ -98,7 +98,7 @@ PROXY_KEY_FILE="${PROXY_TLS_CERTS}/server.key"
 mkcert \
   -cert-file "${PROXY_CERT_FILE}" \
   -key-file "${PROXY_KEY_FILE}" \
-  204px.dev "*.204px.dev" localhost 127.0.0.1 ::1
+  204px.dev "*.204px.dev" localhost 127.0.0.1 ::1 192.168.1.10
 
 kubectl create secret tls -n "${namespace}" \
   cloud-proxy-tls-certs \
