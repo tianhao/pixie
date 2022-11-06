@@ -18,7 +18,7 @@
 
 set -e
 
-namespace="pl-dev"
+namespace="plc-dev"
 
 export LANG=C
 export LC_ALL=C
