@@ -36,6 +36,9 @@ k8s/cloud/overlays/exposed_services_ilb # 将 LoadBalancer 类型改成 NodePort
 k8s/cloud/public/plugin_db_updater_job.yaml # 增加 imagePullPolicy: IfNotPresent
 
 本机 /etc/hosts 配置
+192.168.1.10 204px.dev
+
+上面ip改为你要暴露的地址
 
 
 4. 安装
@@ -50,7 +53,6 @@ kubectl apply -f 2.cloud_deps_public.yaml
 kubectl get pods -n plc # 等待所有 pod 都 Running 所有 job 都是 Completed
 kubectl apply -f 3.cloud_public.yaml
 kubectl get pods -n plc # 等待所有 pod 都 Running 所有 job 都是 Completed
-
 ```
 
 
@@ -59,9 +61,9 @@ kubectl get pods -n plc # 等待所有 pod 都 Running 所有 job 都是 Complet
 px cli 安装
 bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
 
-
+kubectl get pod -n plc | grep create-admin
 提取地址:
-klogs create-admin-job-ztx99 -n plc
+kubectl logs create-admin-job-<随机编码> -n plc
 ```
 Defaulted container "create-admin-job" out of: create-admin-job, kratos-wait (init)
 time="2022-11-06T01:23:20Z" level=info msg="Loading HTTP TLS certs" tlsCA=/certs/ca.crt tlsCertFile=/certs/client.crt tlsKeyFile=/certs/client.key
@@ -69,18 +71,18 @@ time="2022-11-06T01:23:20Z" level=info msg="Loading HTTP TLS certs" tlsCA=/certs
 time="2022-11-06T01:23:22Z" level=info msg="Please go to 'https://work.204px.dev/oauth/kratos/self-service/recovery/methods/link?flow=c3928b10-e0ae-44b9-949b-a3ed474de9fb&token=ZVZHKIxID2eJFkP6hgOdshUQ90NF45xm' to set password for 'admin@default.com'"
 ```
 https://work.204px.dev/oauth/kratos/self-service/recovery/methods/link?flow=c3928b10-e0ae-44b9-949b-a3ed474de9fb&token=ZVZHKIxID2eJFkP6hgOdshUQ90NF45xm
-设置成密码: 1qaz!QAZ
+设置密码: 1qaz!QAZ
 用户名: admin@default.com
 注: 要用 Chrome 浏览器
 
 
-export PL_CLOUD_ADDR=204px.dev
+```shell
+$ export PL_CLOUD_ADDR=204px.dev
 
-px auth login --manual
+$ px auth login --manual
+## 这里会输出和个地址, https://work.204px.dev:443/login?local_mode=true 用Chrome打开这个页面登录(用上面的用户名和密码),把页面中的token粘贴到这里
 
-跟据提示用Chrome 打开 https://work.204px.dev:443/login?local_mode=true
-复制页面的token在终端输出 token
-JB3EoA3ryEBLY9caYAx7zvySkc7Xh9hAByWXpPGmIYU.cryDAZ_3LoEX_AOLQzXddGkpGdDwldCun2UEZEHpvbM
+```
 
 px deploy --dev_cloud_namespace plc --pem_memory_limit=1Gi --use_etcd_operator
 
