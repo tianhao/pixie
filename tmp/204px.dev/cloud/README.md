@@ -46,9 +46,9 @@ k8s/cloud/public/plugin_db_updater_job.yaml # 增加 imagePullPolicy: IfNotPrese
 ```shell
 mkcert -install
 kubectl create namespace plc
-./scripts/create_cloud_secrets.sh
+./create_cloud_secrets.sh
 cd tmp/204px.dev
-sh build-yaml.sh
+sh build-yaml.sh # 生成yaml文件
 kubectl apply -f 1.cloud_deps_base_elastic_operator.yaml
 kubectl apply -f 2.cloud_deps_public.yaml
 kubectl get pods -n plc # 等待所有 pod 都 Running 所有 job 都是 Completed
@@ -83,9 +83,8 @@ $ export PL_CLOUD_ADDR=204px.dev
 $ px auth login --manual
 ## 这里会输出和个地址, https://work.204px.dev:443/login?local_mode=true 用Chrome打开这个页面登录(用上面的用户名和密码),把页面中的token粘贴到这里
 
-```
-
 px deploy --dev_cloud_namespace plc --pem_memory_limit=1Gi --use_etcd_operator
+```
 
 打开地址:
 https://work.204px.dev
