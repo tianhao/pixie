@@ -36,8 +36,9 @@ k8s/cloud/overlays/exposed_services_ilb # 将 LoadBalancer 类型改成 NodePort
 k8s/cloud/public/plugin_db_updater_job.yaml # 增加 imagePullPolicy: IfNotPresent
 
 本机 /etc/hosts 配置
-192.168.1.10 204px.dev
-
+```shell
+192.168.1.10 204px.dev work.204px.dev segment.204px.dev docs.204px.dev cloud.204px.dev
+```
 上面ip改为你要暴露的地址
 
 
