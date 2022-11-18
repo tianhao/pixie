@@ -1,5 +1,5 @@
 
-1. 分支准备
+1. 分支准备(已执行,本分支即新建的分支,跳过)
 ```shell
 export LATEST_CLOUD_RELEASE=$(git tag | grep 'release/cloud'  | sort -r | head -n 1 | awk -F/ '{print $NF}')
 git checkout "release/cloud/prod/${LATEST_CLOUD_RELEASE}"
@@ -7,7 +7,7 @@ git switch -c prod-2022-10-05
 perl -pi -e "s|newTag: latest|newTag: \"${LATEST_CLOUD_RELEASE}\"|g" k8s/cloud/public/kustomization.yaml
 ```
 
-2. 配置修改
+2. 配置修改(本分支已修改)
 本次: LATEST_CLOUD_RELEASE = 1664907260
 修改域名配置 dev.withpixie.dev -> 204px.dev
 
