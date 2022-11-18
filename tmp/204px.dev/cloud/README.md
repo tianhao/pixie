@@ -1,5 +1,5 @@
 
-1. 分支准备(已执行,本分支即新建的分支,跳过)
+## 1. 分支准备(已执行,本分支即新建的分支,跳过)
 ```shell
 export LATEST_CLOUD_RELEASE=$(git tag | grep 'release/cloud'  | sort -r | head -n 1 | awk -F/ '{print $NF}')
 git checkout "release/cloud/prod/${LATEST_CLOUD_RELEASE}"
@@ -7,7 +7,7 @@ git switch -c prod-2022-10-05
 perl -pi -e "s|newTag: latest|newTag: \"${LATEST_CLOUD_RELEASE}\"|g" k8s/cloud/public/kustomization.yaml
 ```
 
-2. 配置修改(本分支已修改)
+## 2. 配置修改(本分支已修改)
 本次: LATEST_CLOUD_RELEASE = 1664907260
 修改域名配置 dev.withpixie.dev -> 204px.dev
 
@@ -25,15 +25,16 @@ k8s/cloud_deps/public/elastic/elastic_replica_patch.yaml # data 节点数改为 
 ```
 
 postgres 配置修改
-```shell
+```
 k8s/cloud_deps/public/postgres/postgres_service.yaml  # 改为 NodePort 类型
 ```
+
 cloud_service 配置修改: 
 ```
 k8s/cloud/overlays/exposed_services_ilb # 将 LoadBalancer 类型改成 NodePort
+k8s/cloud/public/plugin_db_updater_job.yaml # 增加 imagePullPolicy: IfNotPresent
 ```
 
-k8s/cloud/public/plugin_db_updater_job.yaml # 增加 imagePullPolicy: IfNotPresent
 
 本机 /etc/hosts 配置
 ```shell
@@ -42,7 +43,7 @@ k8s/cloud/public/plugin_db_updater_job.yaml # 增加 imagePullPolicy: IfNotPrese
 上面ip改为你要暴露的地址
 
 
-4. 安装
+## 3. 安装 cloud
 ```shell
 mkcert -install
 kubectl create namespace plc
@@ -57,7 +58,7 @@ kubectl get pods -n plc # 等待所有 pod 都 Running 所有 job 都是 Complet
 ```
 
 
-5. 登录
+## 4. 登录
 
 px cli 安装
 bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
@@ -76,19 +77,18 @@ https://work.204px.dev/oauth/kratos/self-service/recovery/methods/link?flow=c392
 用户名: admin@default.com
 注: 要用 Chrome 浏览器
 
-
+## 5. 安装 vizier
 ```shell
 $ export PL_CLOUD_ADDR=204px.dev
 
 $ px auth login --manual
 ## 这里会输出和个地址, https://work.204px.dev:443/login?local_mode=true 用Chrome打开这个页面登录(用上面的用户名和密码),把页面中的token粘贴到这里
 
-px deploy --dev_cloud_namespace plc --pem_memory_limit=1Gi --use_etcd_operator
+$ px deploy --dev_cloud_namespace plc --pem_memory_limit=1Gi --use_etcd_operator
 ```
 
-打开地址:
+用Chrome打开地址:
 https://work.204px.dev
-
 
 提前准备镜像: px/images.txt
 
