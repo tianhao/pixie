@@ -60,27 +60,36 @@ kubectl get pods -n plc # 等待所有 pod 都 Running 所有 job 都是 Complet
 
 ## 4. 登录
 
-px cli 安装
-bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
-
-kubectl get pod -n plc | grep create-admin # 查pod编码
-
 提取地址:
-
+```shell
+kubectl get pod -n plc | grep create-admin # 查pod编码
 kubectl logs create-admin-job-<随机编码> -n plc
+```
+从输出内容中提取地址
 ```
 Defaulted container "create-admin-job" out of: create-admin-job, kratos-wait (init)
 time="2022-11-06T01:23:20Z" level=info msg="Loading HTTP TLS certs" tlsCA=/certs/ca.crt tlsCertFile=/certs/client.crt tlsKeyFile=/certs/client.key
 time="2022-11-06T01:23:20Z" level=info msg="Loading HTTP TLS certs" tlsCA=/certs/ca.crt tlsCertFile=/certs/client.crt tlsKeyFile=/certs/client.key
 time="2022-11-06T01:23:22Z" level=info msg="Please go to 'https://work.204px.dev/oauth/kratos/self-service/recovery/methods/link?flow=c3928b10-e0ae-44b9-949b-a3ed474de9fb&token=ZVZHKIxID2eJFkP6hgOdshUQ90NF45xm' to set password for 'admin@default.com'"
 ```
+
+用Chrome打开地址并设置密码:
+
 https://work.204px.dev/oauth/kratos/self-service/recovery/methods/link?flow=c3928b10-e0ae-44b9-949b-a3ed474de9fb&token=ZVZHKIxID2eJFkP6hgOdshUQ90NF45xm
 
 设置密码: 1qaz!QAZ
-用户名: admin@default.com
+
+默认用户名: admin@default.com
+
 注: 要用 Chrome 浏览器
 
 ## 5. 安装 vizier
+px cli 安装
+```
+bash -c "$(curl -fsSL https://withpixie.ai/install.sh)"
+```
+
+部署 vizier
 ```shell
 $ export PL_CLOUD_ADDR=204px.dev
 
